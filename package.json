@@ -1,0 +1,24 @@
+{
+  "name": "reactcommerce",
+  "version": "0.0.1",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leandrocunha/react-commerce.git"
+  },
+  "author": "Leandro Cunha aka. Frango",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leandrocunha/react-commerce/issues"
+  },
+  "homepage": "https://github.com/leandrocunha/react-commerce#readme",
+  "dependencies": {
+    "grunt": "*",
+    "grunt-contrib-stylus": "*",
+    "grunt-contrib-watch": "*",
+    "nib": "~1.1.0",
+    "responsa": "*",
+    "rupture": "~0.6.1",
+    "grunt-contrib-copy": "~0.8.0"
+  }
+}
