@@ -1,1 +1,0 @@
-{"version":3,"sources":["app.js"],"names":[],"mappings":";;AAAA,IAAI,OAAO,GAAG,OAAO,CAAC,4BAA4B,CAAC,CAAC;;AAEpD,KAAK,CAAC,MAAM,CACV,oBAAC,OAAO,OAAG,EACX,QAAQ,CAAC,cAAc,CAAC,KAAK,CAAC,CAC/B,CAAC","file":"app.js","sourcesContent":["var Loading = require('./../components/loading.js');\n\nReact.render(\n  <Loading />,\n  document.getElementById('app')\n);\n"]}

@@ -1,4 +1,4 @@
-var Loading = require('./../components/loading.js');
+import Loading from './components/loading.js';
 
 React.render(
   <Loading />,
