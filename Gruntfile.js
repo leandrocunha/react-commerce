@@ -24,6 +24,14 @@ module.exports = function(grunt) {
 			}
 		},
 
+		browserify: {
+		  dist: {
+		    files: {
+		      'build/app.js': ['app.js'],
+		    }
+		  }
+		},
+
 		watch: {
 			scripts: {
 				files: ['assets/stylus/*.styl'],
@@ -35,9 +43,10 @@ module.exports = function(grunt) {
 
 	// Load the plugin that provides the "uglify" task.
 	grunt.loadNpmTasks('grunt-contrib-stylus');
+	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Default task(s).
-	grunt.registerTask('default', ['stylus', 'watch']);
+	grunt.registerTask('default', ['stylus', 'browserify', 'watch']);
 
 };
