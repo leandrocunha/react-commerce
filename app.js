@@ -1,4 +1,4 @@
-var Loading = require('./components/loading.js');
+var Loading = require('./../components/loading.js');
 
 React.render(
   <Loading />,

@@ -1,4 +1,4 @@
-import React from 'react';
+var React = require('./../build/react');
 
 export default class Loading extends React.Component {
 

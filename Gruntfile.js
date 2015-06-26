@@ -24,10 +24,21 @@ module.exports = function(grunt) {
 			}
 		},
 
+		babel: {
+	    options: {
+	      sourceMap: true
+	    },
+	    dist: {
+	      files: {
+	        "build/app.js": "app.js"
+	      }
+	    }
+	  },
+
 		browserify: {
 		  dist: {
 		    files: {
-		      'build/app.js': ['app.js'],
+		      'build/app.js': ['build/app.js'],
 		    }
 		  }
 		},
@@ -43,10 +54,11 @@ module.exports = function(grunt) {
 
 	// Load the plugin that provides the "uglify" task.
 	grunt.loadNpmTasks('grunt-contrib-stylus');
+	grunt.loadNpmTasks('grunt-babel');
 	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Default task(s).
-	grunt.registerTask('default', ['stylus', 'browserify', 'watch']);
+	grunt.registerTask('default', ['stylus', 'babel', 'browserify', 'watch']);
 
 };
