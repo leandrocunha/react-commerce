@@ -24,23 +24,21 @@ module.exports = function(grunt) {
 			}
 		},
 
-		babel: {
-	    options: {
-	      sourceMap: true
-	    },
-	    dist: {
-	      files: {
-	        "build/app.js": "app.js"
-	      }
-	    }
-	  },
-
 		browserify: {
-		  dist: {
-		    files: {
-		      'build/app.js': ['build/app.js'],
-		    }
-		  }
+			dist: {
+				options: {
+					transform: [
+						["babelify", { loose: "all" }]
+					]
+				},
+
+				files: {
+						// if the source file has an extension of es6 then
+						// we change the name of the source file accordingly.
+						// The result file's extension is always .js
+						"./build/app.js": ["./app.js", "./components/*.js"]
+					}
+			}
 		},
 
 		watch: {
@@ -54,11 +52,10 @@ module.exports = function(grunt) {
 
 	// Load the plugin that provides the "uglify" task.
 	grunt.loadNpmTasks('grunt-contrib-stylus');
-	grunt.loadNpmTasks('grunt-babel');
 	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Default task(s).
-	grunt.registerTask('default', ['stylus', 'babel', 'browserify', 'watch']);
+	grunt.registerTask('default', ['stylus', 'browserify', 'watch']);
 
 };
