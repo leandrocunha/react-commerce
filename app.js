@@ -1,6 +1,6 @@
-import Loading from './components/loading.js';
+import Page from './components/page.js';
 
 React.render(
-  <Loading />,
+  <Page />,
   document.getElementById('app')
 );
