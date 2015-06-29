@@ -5,28 +5,28 @@ export default class Content extends React.Component {
 
   render(){
 
-    let featured_products = {
-      product: {
-        name: "T-Shirt A",
-        url: "/tshirt-a",
-        image: "assets/img/tshirt-blue.jpg"
+    let featured_products = [
+      {
+        name: 'T-Shirt A',
+        url: '/tshirts/t-shirt-a',
+        price: '100'
       },
-      product: {
-        name: "T-Shirt A",
-        url: "/tshirt-a",
-        image: "assets/img/tshirt-blue.jpg"
+      {
+        name: 'T-Shirt B',
+        url: '/tshirts/t-shirt-b',
+        price: '100'
       },
-      product: {
-        name: "T-Shirt A",
-        url: "/tshirt-a",
-        image: "assets/img/tshirt-blue.jpg"
+      {
+        name: 'T-Shirt C',
+        url: '/tshirts/t-shirt-c',
+        price: '100'
       },
-      product: {
-        name: "T-Shirt A",
-        url: "/tshirt-a",
-        image: "assets/img/tshirt-blue.jpg"
+      {
+        name: 'T-Shirt D',
+        url: '/tshirts/t-shirt-d',
+        price: '100'
       }
-    }
+    ];
 
     return (
       <section id="Content">
@@ -37,10 +37,9 @@ export default class Content extends React.Component {
   			<div className="featured-products">
           <div className="container">
             {
-              featured_products.map(
-                product => (
-                  <FeaturedProducts />
-                )
+              _.map(featured_products,
+                (product, index) =>
+                <FeaturedProducts />
               )
             }
           </div>
