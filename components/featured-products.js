@@ -4,9 +4,10 @@ export default class FeaturedProducts extends React.Component {
 
     return (
       <div className="product">
-        <img src="assets/img/tshirt-blue.jpg" />
-        <p>T-Shirt A</p>
-        <a href="#">see more</a>
+        <img src={this.props.image} />
+        <p>{this.props.name}</p>
+        <p>{this.props.price}</p>
+        <a href={this.props.url}>see more</a>
       </div>
     );
   }
