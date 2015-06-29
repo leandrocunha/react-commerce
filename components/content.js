@@ -1,3 +1,5 @@
+import FeaturedProducts from './featured-products.js';
+
 export default class Content extends React.Component {
 
   render(){
@@ -10,21 +12,7 @@ export default class Content extends React.Component {
 
   			<div className="featured-products">
           <div className="container">
-            <div className="product">
-              <img src="" />
-              <p>T-Shirt A</p>
-              <a href="#">see more</a>
-            </div>
-            <div className="product">
-              <img src="" />
-              <p>T-Shirt A</p>
-              <a href="#">see more</a>
-            </div>
-            <div className="product">
-              <img src="" />
-              <p>T-Shirt A</p>
-              <a href="#">see more</a>
-            </div>
+            <FeaturedProducts />
           </div>
   			</div>
   		</section>
