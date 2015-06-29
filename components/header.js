@@ -1,3 +1,5 @@
+import Logotype from './logotype.js'
+
 export default class Header extends React.Component {
 
   render(){
@@ -5,16 +7,18 @@ export default class Header extends React.Component {
     return (
       <header>
   			<div className="container">
-  				<h1>React Commerce</h1>
+          <div className="row">
+    				<Logotype />
 
-          <nav className="nav-bar">
-            <ul className="nav-list">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">T-Shirts</a></li>
-              <li><a href="#">Hats</a></li>
-              <li><a href="#">Contact Us</a></li>
-            </ul>
-          </nav>
+            <nav className="nav-bar">
+              <ul className="nav-list">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">T-Shirts</a></li>
+                <li><a href="#">Hats</a></li>
+                <li><a href="#">Contact Us</a></li>
+              </ul>
+            </nav>
+          </div>
   			</div>
   		</header>
     );
