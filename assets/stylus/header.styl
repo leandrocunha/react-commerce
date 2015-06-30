@@ -4,13 +4,42 @@ header
   .logotype-wrapper
     column(245px, gutter: 10px, 1010px)
 
+    h1
+      background-position center
+      background-repeat no-repeat
+      background-size 100% auto
+      height 100px
+      image '../../assets/img/logotype-react-commerce.png'
+      text-indent -5000px
+
   .nav-bar
     column(755px, gutter: 10px, 1010px)
 
     .nav-list
       .item
         display inline-block
+        line-height 100px
         margin 0 10px
+
+        a
+          color #56C3E0
+          text-decoration none
+          font-weight 300
+
+          &:hover
+            color #61dafb;
 
         &.login
           float right
+
+          a
+            border: 1px #56c3e0  solid;
+            border-radius: 5px;
+            color: #56c3e0;
+            font-size: 12px;
+            padding: 10px 20px;
+            text-transform: uppercase;
+
+            &:hover
+              background-color #61dafb;
+              color #fff;
