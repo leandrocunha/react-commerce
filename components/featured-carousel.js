@@ -1,9 +1,11 @@
-import $ from 'jquery'
-
 export default class FeaturedCarousel extends React.Component {
 
   componentDidMount(){
     LazyLoad.js([`shared/vendors/owl.carousel/src/js/owl.carousel.js`], () => {
+
+      global.jQuery = require('jquery');
+      global.$ = jQuery;
+
       $(React.findDOMNode(this.refs.featuredCarousel)).owlCarousel();
     });
   }
