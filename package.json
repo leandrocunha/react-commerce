@@ -27,6 +27,7 @@
     "grunt-contrib-stylus": "*",
     "grunt-contrib-watch": "*",
     "grunt-react": "^0.12.2",
+    "jquery": "^2.1.4",
     "lodash": "^3.9.3",
     "nib": "~1.1.0",
     "responsa": "*",

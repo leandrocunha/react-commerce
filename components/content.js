@@ -42,7 +42,7 @@ export default class Content extends React.Component {
             {
               _.map(featured_products,
                 (p, index) =>
-                <FeaturedProducts name={p.name} url={p.url} image={p.image} price={p.price}/>
+                <FeaturedProducts key={index} name={p.name} url={p.url} image={p.image} price={p.price}/>
               )
             }
           </div>
