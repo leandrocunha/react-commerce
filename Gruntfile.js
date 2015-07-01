@@ -61,7 +61,7 @@ module.exports = function(grunt) {
 
 		watch: {
 			scripts: {
-				files: ['assets/stylus/*.styl', './components/*.js'],
+				files: ['assets/stylus/*.styl', './components/*.js', './app.js'],
 				tasks: ['stylus', 'browserify']
 			}
 		}
