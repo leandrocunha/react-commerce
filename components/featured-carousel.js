@@ -28,7 +28,7 @@ export default class FeaturedCarousel extends React.Component {
 						<div className="container">
 							<div className="call-to-action">
 								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-								<a className="btn" href="#">read more</a>
+								<a className="btn btn-white" href="#">read more</a>
 							</div>
 						</div>
 						<img src='assets/img/slide1.jpg'/>
