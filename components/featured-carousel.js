@@ -7,7 +7,9 @@ export default class FeaturedCarousel extends React.Component {
 		let slick = () =>
 			LazyLoad.js(['node_modules/slick-carousel/slick/slick.js'],
 				() => $(React.findDOMNode(this.refs.featuredCarousel)).slick({
-					autoplay: true
+					autoplay: true,
+					fade: true,
+					dots: true
 				})
 			);
 
@@ -23,6 +25,12 @@ export default class FeaturedCarousel extends React.Component {
 			<div className='featured-carousel'>
 				<div className='slides-list' ref='featuredCarousel'>
 					<div className='slide'>
+						<div className="container">
+							<div className="call-to-action">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+								<a className="btn" href="#">read more</a>
+							</div>
+						</div>
 						<img src='assets/img/slide1.jpg'/>
 					</div>
 					<div className='slide'>
