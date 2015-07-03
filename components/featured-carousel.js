@@ -1,25 +1,27 @@
+
+
 export default class FeaturedCarousel extends React.Component {
 
 	componentDidMount() {
-		let loadOwljs = () =>
-			LazyLoad.js(
-				['shared/vendors/owl.carousel/src/js/owl.carousel.js'],
-				() => $(React.findDOMNode(this.refs.featuredCarousel)).owlCarousel({
-					singleItem: true
+
+		let slick = () =>
+			LazyLoad.js(['node_modules/slick-carousel/slick/slick.js'],
+				() => $(React.findDOMNode(this.refs.featuredCarousel)).slick({
+					autoplay: true
 				})
 			);
 
-		LazyLoad.css([
-			'shared/vendors/owl.carousel/src/css/owl.carousel.css',
-			'shared/vendors/owl.carousel/src/css/owl.theme.default.css'
-		], loadOwljs);
+			LazyLoad.css([
+				'node_modules/slick-carousel/slick/slick.css',
+				'node_modules/slick-carousel/slick/slick-theme.css',
+			], slick);
 	}
 
 	render() {
 
 		return (
 			<div className='featured-carousel'>
-				<div className='slides-list owl-carousel' ref='featuredCarousel'>
+				<div className='slides-list' ref='featuredCarousel'>
 					<div className='slide'>
 						<img src='assets/img/slide1.jpg'/>
 					</div>
