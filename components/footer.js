@@ -25,7 +25,7 @@ export default class Footer extends React.Component {
             </div>
           </div>
           <hr/>
-  				<p>React Commerce - Comércio de Roupas e Acessórios LTDA</p>
+  				<p className="company-data">React Commerce - Comércio de Roupas e Acessórios LTDA</p>
   			</div>
   		</footer>
   		/* jshint ignore:end */
