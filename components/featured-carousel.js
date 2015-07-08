@@ -1,5 +1,3 @@
-
-
 export default class FeaturedCarousel extends React.Component {
 
 	componentDidMount() {
@@ -22,6 +20,7 @@ export default class FeaturedCarousel extends React.Component {
 	render() {
 
 		return (
+			/* jshint ignore:start */
 			<div className='featured-carousel'>
 				<div className='slides-list' ref='featuredCarousel'>
 					<div className='slide'>
@@ -41,6 +40,7 @@ export default class FeaturedCarousel extends React.Component {
 					</div>
 				</div>
 			</div>
+			/* jshint ignore:end */
 		);
 	}
 }

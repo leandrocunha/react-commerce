@@ -44,6 +44,17 @@ module.exports = function(grunt) {
 		  },
 		},
 
+		jshint: {
+			options: {
+				esnext: true
+			},
+    	all: [
+    		'Gruntfile.js',
+    		'app.js',
+    		'components/*.js'
+    	]
+  	},
+
 		stylus: {
 			compile: {
 				options: {
@@ -71,11 +82,12 @@ module.exports = function(grunt) {
 	// Load the plugin that provides the "uglify" task.
 	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-stylus');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Default task(s).
-	grunt.registerTask('default', ['stylus', 'browserify', 'watch']);
+	grunt.registerTask('default', ['stylus', 'browserify', 'jshint', 'watch']);
 	grunt.registerTask('init', ['copy']);
 
 };

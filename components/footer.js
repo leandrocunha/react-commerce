@@ -3,6 +3,7 @@ export default class Footer extends React.Component {
   render(){
 
     return (
+    	/* jshint ignore:start */
       <footer id="f">
   			<div className="container">
           <div className="leads">
@@ -27,6 +28,7 @@ export default class Footer extends React.Component {
   				<p>React Commerce - Comércio de Roupas e Acessórios LTDA</p>
   			</div>
   		</footer>
+  		/* jshint ignore:end */
     );
   }
 }

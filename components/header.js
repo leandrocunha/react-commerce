@@ -1,10 +1,11 @@
-import Logotype from './logotype.js'
+import Logotype from './logotype.js';
 
 export default class Header extends React.Component {
 
   render(){
 
     return (
+    	/* jshint ignore:start */
       <header>
   			<div className="container">
           <div className="row">
@@ -22,6 +23,7 @@ export default class Header extends React.Component {
           </div>
   			</div>
   		</header>
+  		/* jshint ignore:end */
     );
   }
 }
