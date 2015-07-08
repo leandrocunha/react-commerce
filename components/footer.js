@@ -16,8 +16,8 @@ export default class Footer extends React.Component {
               </div>
               <div className="links">
                 <ul className="nav-links">
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="#">Contact Us</a></li>
+                  <li className="item"><a className="link" href="#">About Us</a></li>
+                  <li className="item"><a className="link" href="#">Contact Us</a></li>
                 </ul>
               </div>
               <div className="social">
