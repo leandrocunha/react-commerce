@@ -1,3 +1,5 @@
+import { Link } from 'react-router';
+
 export default class Logotype extends React.Component {
 
   render(){
@@ -5,7 +7,7 @@ export default class Logotype extends React.Component {
     return(
     	/* jshint ignore:start */
       <div className="logotype-wrapper">
-        <h1><a href="/">React Commerce</a></h1>
+        <h1><Link to="/">React Commerce</Link></h1>
       </div>
       /* jshint ignore:end */
     );
