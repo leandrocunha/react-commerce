@@ -1,3 +1,4 @@
+import React from 'react';
 import Logotype from './logotype.js';
 
 export default class Header extends React.Component {

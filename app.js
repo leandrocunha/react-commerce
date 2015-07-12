@@ -1,19 +1,22 @@
 import $ from 'jquery';
-import { Router, Route } from 'react-router';
+import React from 'react';
+import Router, {Route, DefaultRoute} from 'react-router';
 import Page from './components/page.js';
+import Content from './components/content.js';
 
+/* jshint ignore:start */
 global.$ = global.jQuery = $;
 
 let routes = (
-		<Router history={history}>
-    	<Route path="/" component={Page}/>
-  	</Router>
-  );
+	<Route name='app' path='/' handler={Page}>
+		<DefaultRoute handler={Content} />
+	</Route>
+);
 
-Router.run(routes, Router.HashLocation, (Page) => {
-	React.render(
-		/* jshint ignore:start */
-		<Page />,document.getElementById('app')
-		/* jshint ignore:end */
-	)
-});
+Router.run(
+	routes, 
+	Router.HashLocation, 
+	RootComponent => React.render(<RootComponent />, document.getElementById('app'))
+);
+
+/* jshint ignore:end */

@@ -1,3 +1,4 @@
+import React from 'react';
 import _ from 'lodash';
 import FeaturedCarousel from './featured-carousel';
 import FeaturedProducts from './featured-products';
