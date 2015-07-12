@@ -1,10 +1,14 @@
 import $ from 'jquery';
+import { Router, Route } from 'react-router';
 import Page from './components/page.js';
 
 global.$ = global.jQuery = $;
 
 React.render(
 	/* jshint ignore:start */
-	<Page />,document.getElementById('app')
+	<Router history={history}>
+    <Route path="/" component={Page} />
+  </Router>
+	,document.getElementById('app')
 	/* jshint ignore:end */
 );
