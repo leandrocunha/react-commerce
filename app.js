@@ -4,11 +4,16 @@ import Page from './components/page.js';
 
 global.$ = global.jQuery = $;
 
-React.render(
-	/* jshint ignore:start */
-	<Router history={history}>
-    <Route path="/" component={Page} />
-  </Router>
-	,document.getElementById('app')
-	/* jshint ignore:end */
-);
+let routes = (
+		<Router history={history}>
+    	<Route path="/" component={Page}/>
+  	</Router>
+  );
+
+Router.run(routes, Router.HashLocation, (Page) => {
+	React.render(
+		/* jshint ignore:start */
+		<Page />,document.getElementById('app')
+		/* jshint ignore:end */
+	)
+});
