@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 export default class Footer extends React.Component {
 
 	render(){
@@ -20,7 +21,11 @@ export default class Footer extends React.Component {
 								<p className="title">Quick links</p>
 								<ul className="nav-links">
 									<li className="item"><a className="link" href="#">About Us</a></li>
-									<li className="item"><a className="link" href="#">Contact Us</a></li>
+									<li className="item">
+                    <Link to='contact'>
+                      Contact Us
+                    </Link>
+                  </li>
 								</ul>
 							</div>
 							<div className="social">
