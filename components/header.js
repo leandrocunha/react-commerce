@@ -33,7 +33,11 @@ export default class Header extends React.Component {
                     Contact Us
                   </Link>
                 </li>
-                <li className="item login"><a href="#">Login</a></li>
+                <li className="item login">
+                  <Link to ='login'>
+                    Login
+                  </Link>
+                </li>
               </ul>
             </nav>
           </div>
