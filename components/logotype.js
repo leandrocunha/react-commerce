@@ -9,7 +9,7 @@ export default class Logotype extends React.Component {
     	/* jshint ignore:start */
       <div className="logotype-wrapper">
         <h1>
-        	React Commerce
+        	<Link to="/">React Commerce</Link>
         </h1>
       </div>
       /* jshint ignore:end */

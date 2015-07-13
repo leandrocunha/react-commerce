@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import FeaturedCarousel from './featured-carousel';
-import FeaturedProducts from './featured-products';
+import Product from './product';
 
 export default class Content extends React.Component {
 
@@ -35,24 +35,24 @@ export default class Content extends React.Component {
     ];
 
     return (
-    	/* jshint ignore:start */
+      /* jshint ignore:start */
       <section id="Content">
         <FeaturedCarousel />
 
-  			<div className="featured-products">
+        <div className="products-list featured-products">
           <div className="container">
-          	<div className="row">
-							{
-							  _.map(featured_products,
-							    (p, index) =>
-							    <FeaturedProducts key={index} name={p.name} url={p.url} image={p.image} price={p.price}/>
-							  )
-							}
+            <div className="row">
+              {
+                _.map(featured_products,
+                  (p, index) =>
+                  <Product key={index} name={p.name} url={p.url} image={p.image} price={p.price}/>
+                )
+              }
             </div>
           </div>
-  			</div>
-  		</section>
-  		/* jshint ignore:end */
+        </div>
+      </section>
+      /* jshint ignore:end */
     );
   }
 }
