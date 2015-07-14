@@ -10,25 +10,25 @@ export default class Content extends React.Component {
     let featured_products = [
       {
         name: 'T-Shirt A',
-        url: '/tshirts/t-shirt-a',
+        slug: 't-shirt-a',
         image: 'assets/img/tshirt-blue.jpg',
         price: '100'
       },
       {
         name: 'T-Shirt B',
-        url: '/tshirts/t-shirt-b',
+        slug: 't-shirt-b',
         image: 'assets/img/tshirt-red.jpg',
         price: '100'
       },
       {
         name: 'T-Shirt C',
-        url: '/tshirts/t-shirt-c',
+        slug: 't-shirt-c',
         image: 'assets/img/tshirt-blue.jpg',
         price: '100'
       },
       {
         name: 'T-Shirt D',
-        url: '/tshirts/t-shirt-d',
+        slug: 't-shirt-d',
         image: 'assets/img/tshirt-red.jpg',
         price: '100'
       }
@@ -45,7 +45,7 @@ export default class Content extends React.Component {
               {
                 _.map(featured_products,
                   (p, index) =>
-                  <Product key={index} name={p.name} url={p.url} image={p.image} price={p.price}/>
+                  <Product key={index} name={p.name} slug={p.slug} image={p.image} price={p.price}/>
                 )
               }
             </div>

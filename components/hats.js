@@ -10,37 +10,37 @@ export default class Hats extends React.Component {
     let products = [
       {
         name: 'Hat A',
-        url: '/hats/hat-a',
+        slug: 'hat-a',
         image: 'assets/img/hat-gray.jpg',
         price: '100'
       },
       {
         name: 'Hat B',
-        url: '/hats/hat-b',
+        slug: 'hat-b',
         image: 'assets/img/hat-yellow.jpg',
         price: '100'
       },
       {
         name: 'Hat C',
-        url: '/hats/hat-c',
+        slug: 'hat-c',
         image: 'assets/img/hat-gray.jpg',
         price: '100'
       },
       {
         name: 'Hat D',
-        url: '/hats/hat-d',
+        slug: 'hat-d',
         image: 'assets/img/hat-yellow.jpg',
         price: '100'
       },
       {
         name: 'Hat C',
-        url: '/hats/hat-c',
+        slug: 'hat-c',
         image: 'assets/img/hat-gray.jpg',
         price: '100'
       },
       {
         name: 'Hat D',
-        url: '/hats/hat-d',
+        slug: 'hat-d',
         image: 'assets/img/hat-yellow.jpg',
         price: '100'
       }
@@ -63,7 +63,7 @@ export default class Hats extends React.Component {
                   {
                     _.map(products,
                       (p, index) =>
-                      <Product key={index} name={p.name} url={p.url} image={p.image} price={p.price}/>
+                      <Product key={index} name={p.name} slug={p.slug} image={p.image} price={p.price}/>
                     )
                   }
                 </div>

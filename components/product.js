@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router';
+
 export default class Product extends React.Component {
 
   render(){
@@ -9,7 +11,9 @@ export default class Product extends React.Component {
         <img src={this.props.image} />
         <p className="name">{this.props.name}</p>
         <p className="price">{this.props.price}</p>
-        <a className="btn" href={this.props.url}>see more</a>
+        <Link className="btn" to='tshirt' params={{slug: this.props.slug}}>
+          see more
+        </Link>
       </div>
       /* jshint ignore:end */
     );

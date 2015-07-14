@@ -7,6 +7,7 @@ import Tshirts from './components/tshirts';
 import Hats from './components/hats';
 import Contact from './components/contact';
 import Login from './components/login';
+import Product from './components/tshirt';
 
 /* jshint ignore:start */
 global.$ = global.jQuery = $;
@@ -18,6 +19,7 @@ let routes = (
     <Route name='hats' path='/hats' handler={Hats}/>
     <Route name='contact' path='/contact' handler={Contact}/>
     <Route name='login' path='/login' handler={Login}/>
+    <Route name='tshirt' path='/tshirt/:slug' handler={Product}/>
 	</Route>
 );
 
