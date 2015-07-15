@@ -39,8 +39,8 @@ export default class Tshirts extends React.Component {
         price: '100'
       },
       {
-        name: 'T-Shirt D',
-        slug: 't-shirt-d',
+        name: 'T-Shirt E',
+        slug: 't-shirt-e',
         image: 'assets/img/tshirt-red.jpg',
         price: '100'
       }

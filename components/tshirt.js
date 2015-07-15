@@ -1,9 +1,17 @@
 import React from 'react';
 import _ from 'lodash';
+import flux from './../flux/';
 
 export default class Tshirt extends React.Component {
 
+  componentDidMount() {
+    flux.get
+  }
+
   render(){
+    let slug = this.context.router.getCurrentParams().slug;
+    console.log(slug);
+    console.log(flux.store.tshirt.get(slug));
 
     return(
     	/* jshint ignore:start */
@@ -25,3 +33,7 @@ export default class Tshirt extends React.Component {
     );
   }
 }
+
+Tshirt.contextTypes = {
+  router: React.PropTypes.any.isRequired
+};
