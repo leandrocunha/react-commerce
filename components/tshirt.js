@@ -6,7 +6,8 @@ import flux from './../flux/';
 export default class Tshirt extends React.Component {
 
   componentDidMount() {
-    console.log(flux.actions.tshirt.list());
+    console.log('chamou a action');
+    flux.actions.tshirt.list();
   }
 
   _fetchTshirt(slug){

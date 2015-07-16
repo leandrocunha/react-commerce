@@ -3,19 +3,43 @@ import McFly from 'mcfly';
 let Flux = new McFly();
 
 let tshirts = {
-  't-shirt-a': { name: 'T-Shirt A', slug: 't-shirt-a', image: 'assets/img/tshirt-blue.jpg', price: '100' },
-  't-shirt-b': { name: 'T-Shirt B', slug: 't-shirt-b', image: 'assets/img/tshirt-red.jpg', price: '100' },
-  't-shirt-c': { name: 'T-Shirt C', slug: 't-shirt-c', image: 'assets/img/tshirt-blue.jpg', price: '100' },
-  't-shirt-d': { name: 'T-Shirt D', slug: 't-shirt-d', image: 'assets/img/tshirt-red.jpg', price: '100' },
-  't-shirt-e': { name: 'T-Shirt E', slug: 't-shirt-e', image: 'assets/img/tshirt-blue.jpg', price: '100' }
+  "t-shirt-a": {
+    "name": "T-Shirt A",
+    "slug": "t-shirt-a",
+    "image": "assets/img/tshirt-blue.jpg",
+    "price": "100"
+  },
+  "t-shirt-b": {
+    "name": "T-Shirt B",
+    "slug": "t-shirt-b",
+    "image": "assets/img/tshirt-red.jpg",
+    "price": "100"
+  },
+  "t-shirt-c": {
+    "name": "T-Shirt C",
+    "slug": "t-shirt-c",
+    "image": "assets/img/tshirt-blue.jpg",
+    "price": "100"
+  },
+  "t-shirt-d": {
+    "name": "T-Shirt D",
+    "slug": "t-shirt-d",
+    "image": "assets/img/tshirt-red.jpg",
+    "price": "100"
+  },
+  "t-shirt-e": {
+    "name": "T-Shirt E",
+    "slug": "t-shirt-e",
+    "image": "assets/img/tshirt-blue.jpg",
+    "price": "100"
+  }
 };
 
 // SET ACTIONS
 let TshirtActions = Flux.createActions(
   {
-    list () {
-      var p = new Promise(function(resolve, reject) {
-        // do a thing, possibly async, then…
+    list: function() {
+      return new Promise(function(resolve, reject) {
         $.getJSON(`http://dev.reactcommerce.com.br/assets/tshirts.json`)
         .done(function(data){
           resolve(data);
@@ -26,12 +50,12 @@ let TshirtActions = Flux.createActions(
         });
       })
       .then(function(result) {
-        return { actionType: "LIST_TSHIRT", data: result }
+        let payload = { actionType: "LIST_TSHIRTS", data: result };
+        console.log(payload);
+        return payload;
       }, function(err) {
-        console.log(err); // Error: "It broke"
+        console.log(err);
       });
-
-      return p
     },
 
     show() {
@@ -56,25 +80,19 @@ let TshirtActions = Flux.createActions(
       return p
     }
   }
-
-//   show: function(slug) {
-//     return {
-//       actionType: 'GET_TSHIRT',
-//       slug: slug
-//     }
-//   }
-// }
 );
 
 
 // SET STORES
 let TshirtStore = Flux.createStore({
 
-    list: function(data){
+    list: function(data){      
+      console.log(data);
       return data;
     },
 
     get: function(slug){
+      
       return tshirts[slug];
     }
 
@@ -83,10 +101,12 @@ let TshirtStore = Flux.createStore({
   function(payload){
     switch(payload.actionType) {
       case 'LIST_TSHIRTS':
+      console.log('aqui2');
         TshirtStore.list(payload.data);
         break;
 
       case 'GET_TSHIRT':
+
         TshirtStore.get(payload.slug);
         break;
 

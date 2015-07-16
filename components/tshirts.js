@@ -1,13 +1,18 @@
 import React from 'react';
 import _ from 'lodash';
+import Flux from './../flux';
 import Product from './product';
 import Sidebar from './sidebar';
 
 export default class Tshirts extends React.Component {
 
+  componentWillMount() {
+    let products = Flux.actions.tshirt.list();
+  }
+
   render(){
 
-    let products = [
+    let productsArr = [
       {
         name: 'T-Shirt A',
         slug: 't-shirt-a',
