@@ -1,0 +1,32 @@
+{
+  "t-shirt-a": {
+    "name": "T-Shirt A",
+    "slug": "t-shirt-a",
+    "image": "assets/img/tshirt-blue.jpg",
+    "price": "100"
+  },
+  "t-shirt-b": {
+    "name": "T-Shirt B",
+    "slug": "t-shirt-b",
+    "image": "assets/img/tshirt-red.jpg",
+    "price": "100"
+  },
+  "t-shirt-c": {
+    "name": "T-Shirt C",
+    "slug": "t-shirt-c",
+    "image": "assets/img/tshirt-blue.jpg",
+    "price": "100"
+  },
+  "t-shirt-d": {
+    "name": "T-Shirt D",
+    "slug": "t-shirt-d",
+    "image": "assets/img/tshirt-red.jpg",
+    "price": "100"
+  },
+  "t-shirt-e": {
+    "name": "T-Shirt E",
+    "slug": "t-shirt-e",
+    "image": "assets/img/tshirt-blue.jpg",
+    "price": "100"
+  }
+}

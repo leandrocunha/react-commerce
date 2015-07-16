@@ -13,30 +13,49 @@ let tshirts = {
 // SET ACTIONS
 let TshirtActions = Flux.createActions(
   {
-    show() {
-      return Promise.all([
-        
-        $.getJSON(`https://api.parse.com/1/classes/TestObject`, function(data){
-          console.log(data);
+    list () {
+      var p = new Promise(function(resolve, reject) {
+        // do a thing, possibly async, then…
+        $.getJSON(`http://dev.reactcommerce.com.br/assets/tshirts.json`)
+        .done(function(data){
+          resolve(data);
         })
-        .fail(function(jqxhr, textStatus, error) {
-          console.log( jqxhr );
-          console.log( textStatus );
-          console.log( error );
-        })
+        .fail(function( jqxhr, textStatus, error ){
+          console.log(jqxhr);
+          reject(Error("It broke"));
+        });
+      })
+      .then(function(result) {
+        return { actionType: "LIST_TSHIRT", data: result }
+      }, function(err) {
+        console.log(err); // Error: "It broke"
+      });
 
-      ]).then(ls =>
-        ( console.log('teste') )
-      )
+      return p
+    },
+
+    show() {
+
+      var p = new Promise(function(resolve, reject) {
+        // do a thing, possibly async, then…
+        $.getJSON(`http://dev.reactcommerce.com.br/assets/tshirts.json`)
+        .done(function(data){
+          resolve(data);
+        })
+        .fail(function( jqxhr, textStatus, error ){
+          console.log(jqxhr);
+          reject(Error("It broke"));
+        });
+      })
+      .then(function(result) {
+        return { actionType: "GET_TSHIRT", data: result }
+      }, function(err) {
+        console.log(err); // Error: "It broke"
+      });
+
+      return p
     }
   }
-
-// {
-//   list: function(){
-//     return {
-//       actionType: 'LIST_TSHIRTS'
-//     }
-//   },
 
 //   show: function(slug) {
 //     return {
@@ -51,8 +70,8 @@ let TshirtActions = Flux.createActions(
 // SET STORES
 let TshirtStore = Flux.createStore({
 
-    list: function(){
-      console.log('list all tshirts');
+    list: function(data){
+      return data;
     },
 
     get: function(slug){
@@ -64,7 +83,7 @@ let TshirtStore = Flux.createStore({
   function(payload){
     switch(payload.actionType) {
       case 'LIST_TSHIRTS':
-        TshirtStore.list();
+        TshirtStore.list(payload.data);
         break;
 
       case 'GET_TSHIRT':
