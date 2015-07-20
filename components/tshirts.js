@@ -7,49 +7,11 @@ import Sidebar from './sidebar';
 export default class Tshirts extends React.Component {
 
   componentWillMount() {
-    let products = Flux.actions.tshirt.list();
   }
 
   render(){
 
-    let productsArr = [
-      {
-        name: 'T-Shirt A',
-        slug: 't-shirt-a',
-        image: 'assets/img/tshirt-blue.jpg',
-        price: '100'
-      },
-      {
-        name: 'T-Shirt B',
-        slug: 't-shirt-b',
-        image: 'assets/img/tshirt-red.jpg',
-        price: '100'
-      },
-      {
-        name: 'T-Shirt C',
-        slug: 't-shirt-c',
-        image: 'assets/img/tshirt-blue.jpg',
-        price: '100'
-      },
-      {
-        name: 'T-Shirt D',
-        slug: 't-shirt-d',
-        image: 'assets/img/tshirt-red.jpg',
-        price: '100'
-      },
-      {
-        name: 'T-Shirt C',
-        slug: 't-shirt-c',
-        image: 'assets/img/tshirt-blue.jpg',
-        price: '100'
-      },
-      {
-        name: 'T-Shirt E',
-        slug: 't-shirt-e',
-        image: 'assets/img/tshirt-red.jpg',
-        price: '100'
-      }
-    ];
+    let products = Flux.actions.tshirt.list();
 
     return(
     	/* jshint ignore:start */
@@ -66,8 +28,8 @@ export default class Tshirts extends React.Component {
               <div className="main-column">
                 <div className="products-list">
                   {
-                    _.map(productsArr,
-                      (p, index) =>
+                    _.map(this.products,
+                      (p, index) => 
                       <Product key={index} name={p.name} slug={p.slug} image={p.image} price={p.price}/>
                     )
                   }

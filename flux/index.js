@@ -40,7 +40,7 @@ let TshirtActions = Flux.createActions(
   {
     list: function() {
       return new Promise(function(resolve, reject) {
-        $.getJSON(`http://dev.reactcommerce.com.br/assets/tshirts.json`)
+        $.getJSON(`http://localhost:8888/react-commerce/assets/tshirts.json`)
         .done(function(data){
           resolve(data);
         })
@@ -62,7 +62,7 @@ let TshirtActions = Flux.createActions(
 
       var p = new Promise(function(resolve, reject) {
         // do a thing, possibly async, then…
-        $.getJSON(`http://dev.reactcommerce.com.br/assets/tshirts.json`)
+        $.getJSON(`http://localhost:8888/react-commerce/assets/tshirts.json`)
         .done(function(data){
           resolve(data);
         })

@@ -3,3 +3,4 @@
 node_modules/
 build/app.js*
 shared/vendors/parse
+admin/node_modules/
