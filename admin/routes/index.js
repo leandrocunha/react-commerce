@@ -21,4 +21,35 @@ router.get('/tshirts', function(req, res) {
     });
 });
 
+router.get('/tshirts/new', function(req, res) {
+  res.render('productsnew', { title: 'Add New Product' });
+});
+
+/* POST to Add User Service */
+router.post('/addproduct', function(req, res) {
+
+    // Set our internal DB variable
+    var db = req.db;
+
+    // Get our form values. These rely on the "name" attributes
+    var productName = req.body.name;
+
+    // Set our collection
+    var collection = db.get('productcollection');
+
+    // Submit to the DB
+    collection.insert({
+        "name" : productName
+    }, function (err, doc) {
+        if (err) {
+            // If it failed, return error
+            res.send("There was a problem adding the information to the database.");
+        }
+        else {
+            // And forward to success page
+            res.redirect("tshirts");
+        }
+    });
+});
+
 module.exports = router;

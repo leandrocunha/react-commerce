@@ -1,0 +1,21 @@
+<h1>{{title}}</h1>
+
+<nav class="navbar">
+  <ul class="nav-list">
+    <li class="item"><a href="">Home</a></li>
+    <li class="item">
+      <a href="/tshirts">Tshirst</a>
+      <ul class="nav-list">
+        <li class="item">
+          <a href="/tshirts/new">New Product</a>
+        </li>
+      </ul>
+    </li>
+    <li class="item"><a href="">Logout</a></li>
+  </ul>
+</nav>
+
+<form action="/addproduct" method="post">
+  <input type="text" name="name"/>
+  <button type="submit">Adicionar</button>
+</form>
