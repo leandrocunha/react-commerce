@@ -16,6 +16,7 @@ router.get('/tshirts', function(req, res) {
     var collection = db.get('productcollection');
     collection.find({},{},function(e,docs){
         res.render('products', {
+            "title": "Products",
             "tshirts" : docs
         });
     });

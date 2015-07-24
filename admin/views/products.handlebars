@@ -1,20 +1,22 @@
 <h1>{{title}}</h1>
+{{>menu}}
 
-<nav class="navbar">
-  <ul class="nav-list">
-    <li class="item"><a href="">Home</a></li>
-    <li class="item">
-      <a href="/tshirts">Tshirst</a>
-      <ul class="nav-list">
-        <li class="item">
-          <a href="/tshirts/new">New Product</a>
-        </li>
-      </ul>
-    </li>
-    <li class="item"><a href="">Logout</a></li>
-  </ul>
-</nav>
-
+<table>
+  <tr>
+    <td>Image</td>
+    <td>Name</td>
+    <td>Price</td>
+    <td>Actions</td>
+  </tr>
 {{#tshirts}}
-  {{name}}
+  <tr>
+    <td>{{image}}</td>
+    <td>{{name}}</td>
+    <td>{{price}}</td>
+    <td>
+      <a href="#">Editar</a>
+      <a href="#">Excluir</a>
+    </td>
+  </tr>
 {{/tshirts}}
+</table>
