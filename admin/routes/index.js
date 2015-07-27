@@ -38,14 +38,14 @@ router.post('/addproduct', function(req, res) {
   form.parse(req, function(err, fields, files) {
     console.log(fields);
 
-    // res.writeHead(200, {'content-type': 'text/plain'});
-    // res.write('received upload:\n\n');
-    // var image = files.image
-    //   , image_upload_path_old = image.path
-    //   , image_upload_path_new = './public/images/'
-    //   , image_upload_name = image.name
-    //   , image_upload_path_name = image_upload_path_new + image_upload_name
-    //   ;
+    var productName = fields.name,
+        productDescription = fields.description,
+        productPrice = fields.price,
+        image = files.image,
+        image_upload_path_old = image.path,
+        image_upload_path_new = './public/images/',
+        image_upload_name = image.name,
+        image_upload_path_name = image_upload_path_new + image_upload_name;
 
     // if (fs.existsSync(image_upload_path_new)) {
     //   fs.rename(
