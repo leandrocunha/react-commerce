@@ -11,6 +11,7 @@
     "debug": "~2.2.0",
     "express": "~4.13.1",
     "express-handlebars": "^2.0.1",
+    "formidable": "^1.0.17",
     "handlebars": "^3.0.3",
     "mongodb": "^2.0.39",
     "monk": "^1.0.1",
