@@ -47,50 +47,52 @@ router.post('/addproduct', function(req, res) {
         image_upload_name = image.name,
         image_upload_path_name = image_upload_path_new + image_upload_name;
 
-    // if (fs.existsSync(image_upload_path_new)) {
-    //   fs.rename(
-    //     image_upload_path_old,
-    //     image_upload_path_name,
-    //     function (err) {
-    //     if (err) {
-    //       console.log('Err: ', err);
-    //       res.end('Deu merda na hora de mover a imagem!');
-    //     }
-    //     var msg = 'Imagem ' + image_upload_name + ' salva em: ' + image_upload_path_new;
-    //     console.log(msg);
-    //     res.end(msg);
-    //   });
-    // }
-    // else {
-    //   fs.mkdir(image_upload_path_new, function (err) {
-    //     if (err) {
-    //       console.log('Err: ', err);
-    //       res.end('Deu merda na hora de criar o diretório!');
-    //     }
-    //     fs.rename(
-    //       image_upload_path_old,
-    //       image_upload_path_name,
-    //       function(err) {
-    //       var msg = 'Imagem ' + image_upload_name + ' salva em: ' + image_upload_path_new;
-    //       console.log(msg);
-    //       res.end(msg);
-    //     });
-    //   });
-    // }
-  });
-
-  // collection.insert({
-  //     "name" : productName
-  // }, function (err, doc) {
-  //     if (err) {
-  //         // If it failed, return error
-  //         res.send("There was a problem adding the information to the database.");
-  //     }
-  //     else {
-  //         // And forward to success page
-  //         res.redirect("tshirts");
-  //     }
-  // });    
+    collection.insert({
+        "name": productName,
+        "description": productDescription,
+        "price": productPrice,
+        "image": image_upload_name        
+    }, function (err, doc) {
+        if (err) {
+            // If it failed, return error
+            res.send("There was a problem adding the information to the database.");
+        }
+        else {
+          if (fs.existsSync(image_upload_path_new)) {
+            fs.rename(
+              image_upload_path_old,
+              image_upload_path_name,
+              function (err) {
+              if (err) {
+                console.log('Err: ', err);
+                res.end('Deu merda na hora de mover a imagem!');
+              }
+              var msg = 'Imagem ' + image_upload_name + ' salva em: ' + image_upload_path_new;
+              console.log(msg);
+              res.end(msg);
+            });
+          } else {
+            fs.mkdir(image_upload_path_new, function (err) {
+              if (err) {
+                console.log('Err: ', err);
+                res.end('Deu merda na hora de criar o diretório!');
+              }
+              fs.rename(
+                image_upload_path_old,
+                image_upload_path_name,
+                function(err) {
+                var msg = 'Imagem ' + image_upload_name + ' salva em: ' + image_upload_path_new;
+                console.log(msg);
+                res.end(msg);
+              });
+            });
+          }
+          
+          // And forward to success page
+          res.redirect("tshirts");
+        }
+    });
+  });    
 
 });
 
