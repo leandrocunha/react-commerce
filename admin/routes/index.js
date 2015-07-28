@@ -105,4 +105,39 @@ router.get('/tshirts/productsdelete/:id', function(req, res) {
     });
 });
 
+router.put('/tshirts/productsedit/:id', function(req, res) {
+    // Get our REST or form values. These rely on the "name" attributes
+    var db = req.db;
+    var collection = db.get('productcollection');
+    var id = req.body.id,
+    var name = req.body.name;
+    var description = req.body.description;
+    var price = req.body.price;
+
+    collection.findById(id, function (err, doc) {
+        //update it
+        doc.update({
+            name : name,
+            badge : badge,
+            dob : dob,
+            isloved : isloved
+        }, function (err, blobID) {
+          if (err) {
+              res.send("There was a problem updating the information to the database: " + err);
+          } 
+          else {
+                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+                  res.format({
+                      html: function(){
+                           res.redirect("/blobs/" + blob._id);
+                     },
+                     //JSON responds showing the updated values
+                    json: function(){
+                           res.json(blob);
+                     }
+                  });
+           }
+        });
+    });
+
 module.exports = router;
