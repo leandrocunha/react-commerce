@@ -87,7 +87,7 @@ router.post('/addproduct', function(req, res) {
               });
             });
           }
-          
+
           // And forward to success page
           res.redirect("tshirts");
         }
@@ -96,15 +96,13 @@ router.post('/addproduct', function(req, res) {
 
 });
 
-module.exports = router;
-
-
-
-
-router.post('/upload', function (req, res) {
-  var form = new formidable.IncomingForm();
-
-
+router.get('/tshirts/productsdelete/:id', function(req, res) {
+    var db = req.db;
+    var collection = db.get('productcollection');
+    var userToDelete = req.params.id;
+    collection.remove({ '_id' : userToDelete }, function(err) {
+        (err === null) ? res.redirect("/tshirts") : { msg:'error: ' + err };
+    });
 });
 
 module.exports = router;
