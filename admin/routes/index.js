@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var formidable = require('formidable');
+var _ = require('lodash');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -26,6 +27,66 @@ router.get('/tshirts', function(req, res) {
 
 router.get('/tshirts/new', function(req, res) {
   res.render('productsnew', { title: 'Add New Product' });
+});
+
+/* edit product */
+router.get('/product/:id', function(req, res){
+  var db = req.db,
+      collection = db.get('productcollection'),
+      pId = req.params.id;
+
+  collection.findById(pId, function (err, doc){
+    if(err){
+      console.log('Shits happen!');
+    }else{
+      var data = _.merge({"title": "Edit Product"}, doc);
+
+      res.render('product-form', data);
+    }
+  });
+});
+
+router.post('/product/edit', function(req, res) {
+  var db = req.db,
+      collection = db.get('productcollection'),
+      pId = req.body.id;
+
+  collection.findById(pId, function (err, doc) {
+    if(err){
+      console.log('Shits happen!');
+    }else{
+      console.log(doc);
+      doc.update(doc, function (err, data){
+        if(err){
+          console.log('Shits happen!');
+        }else{
+          res.redirect("tshirts");
+        }
+      });
+    }
+        //update it
+        // doc.update({
+        //     name : name,
+        //     badge : badge,
+        //     dob : dob,
+        //     isloved : isloved
+        // }, function (err, blobID) {
+        //   if (err) {
+        //       res.send("There was a problem updating the information to the database: " + err);
+        //   } 
+        //   else {
+        //           //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+        //           res.format({
+        //               html: function(){
+        //                    res.redirect("/blobs/" + blob._id);
+        //              },
+        //              //JSON responds showing the updated values
+        //             json: function(){
+        //                    res.json(blob);
+        //              }
+        //           });
+        //    }
+  });
 });
 
 /* POST to Add User Service */
@@ -104,40 +165,5 @@ router.get('/tshirts/productsdelete/:id', function(req, res) {
         (err === null) ? res.redirect("/tshirts") : { msg:'error: ' + err };
     });
 });
-
-router.put('/tshirts/productsedit/:id', function(req, res) {
-    // Get our REST or form values. These rely on the "name" attributes
-    var db = req.db;
-    var collection = db.get('productcollection');
-    var id = req.body.id,
-    var name = req.body.name;
-    var description = req.body.description;
-    var price = req.body.price;
-
-    collection.findById(id, function (err, doc) {
-        //update it
-        doc.update({
-            name : name,
-            badge : badge,
-            dob : dob,
-            isloved : isloved
-        }, function (err, blobID) {
-          if (err) {
-              res.send("There was a problem updating the information to the database: " + err);
-          } 
-          else {
-                  //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
-                  res.format({
-                      html: function(){
-                           res.redirect("/blobs/" + blob._id);
-                     },
-                     //JSON responds showing the updated values
-                    json: function(){
-                           res.json(blob);
-                     }
-                  });
-           }
-        });
-    });
 
 module.exports = router;

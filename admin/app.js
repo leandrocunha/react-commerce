@@ -39,6 +39,7 @@ app.use(function(req,res,next){
 app.use('/', routes);
 app.use('/users', users);
 app.use('/tshirts', tshirts);
+app.use('/product', tshirts);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

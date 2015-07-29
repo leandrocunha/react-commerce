@@ -1,0 +1,18 @@
+<h1>{{title}}</h1>
+{{>menu}}
+<form action="/product/edit" method="post" enctype="multipart/form-data">
+  <label>Name:</label>
+  <input type="text" name="name" value="{{name}}" />
+  <br><br>
+  <label>Description:</label>
+  <textarea name="description">{{description}}</textarea>
+  <br><br>
+  <label>Price:</label>
+  <input type="text" name="price" value="{{price}}" />
+  <br><br>
+  <label>Image:</label>
+  <input type="file" name="image" value="{{image}}" //>
+  <br><br>
+  <input name="id" type="hidden" value="{{_id}}" />
+  <button type="submit">Edit</button>
+</form>
