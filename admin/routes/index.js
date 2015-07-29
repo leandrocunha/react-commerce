@@ -17,7 +17,7 @@ router.get('/helloworld', function(req, res) {
 router.get('/tshirts', function(req, res) {
   var db = req.db;
   var collection = db.get('productcollection');
-  collection.find({},{},function(e,docs){
+  collection.find({},{"sort": {"name": 1}},function(e,docs){
       res.render('products', {
           "title": "Products",
           "tshirts" : docs
