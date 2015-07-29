@@ -49,43 +49,56 @@ router.get('/product/:id', function(req, res){
 router.post('/product/edit', function(req, res) {
   var db = req.db,
       collection = db.get('productcollection'),
-      pId = req.body.id;
+      form = new formidable.IncomingForm();
 
-  collection.findById(pId, function (err, doc) {
-    if(err){
-      console.log('Shits happen!');
-    }else{
-      console.log(doc);
-      doc.update(doc, function (err, data){
-        if(err){
-          console.log('Shits happen!');
-        }else{
-          res.redirect("tshirts");
-        }
-      });
-    }
-        //update it
-        // doc.update({
-        //     name : name,
-        //     badge : badge,
-        //     dob : dob,
-        //     isloved : isloved
-        // }, function (err, blobID) {
-        //   if (err) {
-        //       res.send("There was a problem updating the information to the database: " + err);
-        //   } 
-        //   else {
-        //           //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
-        //           res.format({
-        //               html: function(){
-        //                    res.redirect("/blobs/" + blob._id);
-        //              },
-        //              //JSON responds showing the updated values
-        //             json: function(){
-        //                    res.json(blob);
-        //              }
-        //           });
-        //    }
+  form.parse(req, function(err, fields, files) {
+
+    var productID = fields.id;
+
+    collection.findById(productID, function (err, doc) {
+      if(err){
+        console.log('Shits happen!');
+      }else{
+        collection.update({'_id': doc._id }, fields, {safe:true}, function(err, result) {
+            if (err) {
+                console.log('Error updating wine: ' + err);
+                res.send({'error':'An error has occurred'});
+            } else {
+                console.log('' + result + ' document(s) updated');
+                res.redirect("/tshirts");
+            }
+        });        
+        // collection.update( { "_id": doc._id.toString() }, fields, function (err, doc){
+        //   if(err){
+        //     console.log('Shits happen!');
+        //   }else{
+        //     res.redirect("tshirts");
+        //   }
+        // });
+      }
+          //update it
+          // doc.update({
+          //     name : name,
+          //     badge : badge,
+          //     dob : dob,
+          //     isloved : isloved
+          // }, function (err, blobID) {
+          //   if (err) {
+          //       res.send("There was a problem updating the information to the database: " + err);
+          //   } 
+          //   else {
+          //           //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
+          //           res.format({
+          //               html: function(){
+          //                    res.redirect("/blobs/" + blob._id);
+          //              },
+          //              //JSON responds showing the updated values
+          //             json: function(){
+          //                    res.json(blob);
+          //              }
+          //           });
+          //    }
+    });
   });
 });
 
