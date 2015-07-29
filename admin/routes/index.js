@@ -9,11 +9,6 @@ router.get('/', function(req, res, next) {
   res.render('home', { title: 'ReactCommerce Admin' });
 });
 
-/* GET Hello World page. */
-router.get('/helloworld', function(req, res) {
-    res.render('helloworld', { title: 'Hello, World!' });
-});
-
 router.get('/tshirts', function(req, res) {
   var db = req.db;
   var collection = db.get('productcollection');
@@ -176,6 +171,86 @@ router.get('/tshirts/productsdelete/:id', function(req, res) {
     var userToDelete = req.params.id;
     collection.remove({ '_id' : userToDelete }, function(err) {
         (err === null) ? res.redirect("/tshirts") : { msg:'error: ' + err };
+    });
+});
+
+
+router.get('/users', function(req, res) {
+  var db = req.db;
+  var collection = db.get('users');
+  collection.find({},{"sort": {"name": 1}},function(e,docs){
+      res.render('users', {
+          "title": "Users",
+          "users" : docs
+      });
+  });
+});
+
+router.get('/users/new', function(req, res) {
+    res.render('users-new', { title: 'Add User' });
+});
+
+router.post('/users/add', function(req, res) {
+  var db = req.db;
+  var collection = db.get('users');
+  var form = new formidable.IncomingForm();
+
+  form.parse(req, function(err, fields, files) {
+    collection.insert(fields, function (err, doc) {
+      if(err){
+        console.log('Shits happen!');
+      }else{
+        res.redirect('/users');
+      }
+    });
+  });
+});
+
+router.get('/users/:id/edit', function(req, res){
+  var db = req.db,
+      collection = db.get('users');
+
+  collection.findById(req.params.id, function (err, doc){
+    if(err){
+      console.log('Shits happen!');
+    }else{
+      var data = _.merge({"title": "Edit User"}, doc);
+
+      res.render('users-edit', data);
+    }
+  });
+});
+
+router.post('/users/edit', function(req, res) {
+  var db = req.db,
+      collection = db.get('users'),
+      form = new formidable.IncomingForm();
+
+  form.parse(req, function(err, fields, files) {
+    collection.findById(fields.id, function (err, doc) {
+      if(err){
+        console.log('Shits happen!');
+      }else{
+        collection.update({'_id': doc._id }, fields, {safe:true}, function(err, result) {
+            if (err) {
+                console.log('Error updating wine: ' + err);
+                res.send({'error':'An error has occurred'});
+            } else {
+                console.log('' + result + ' document(s) updated');
+                res.redirect("/users");
+            }
+        });        
+      }
+    });
+  });
+});
+
+router.get('/users/:id/delete', function(req, res) {
+    var db = req.db;
+    var collection = db.get('users');
+
+    collection.remove({ '_id' : req.params.id }, function(err) {
+        (err === null) ? res.redirect("/users") : { msg:'error: ' + err };
     });
 });
 

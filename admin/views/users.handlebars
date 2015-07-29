@@ -1,0 +1,20 @@
+<h1>{{title}}</h1>
+{{>menu}}
+
+<table>
+  <tr>    
+    <td>Name</td>
+    <td>Email</td>
+    <td>Actions</td>
+  </tr>
+{{#users}}
+  <tr>
+    <td>{{name}}</td>
+    <td>{{email}}</td>
+    <td>
+      <a href="/users/{{_id}}/edit">Editar</a>
+      <a href="/users/{{_id}}/delete">Excluir</a>
+    </td>
+  </tr>
+{{/users}}
+</table>
