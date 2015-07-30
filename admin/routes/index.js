@@ -1,8 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var fs = require('fs');
-var formidable = require('formidable');
-var _ = require('lodash');
+var express = require('express'),
+    router = express.Router(),
+    fs = require('fs'),
+    formidable = require('formidable'),
+    _ = require('lodash');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
