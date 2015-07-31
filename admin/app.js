@@ -8,8 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs  = require('express-handlebars'),
     passport = require('passport'),
-    util = require('util'),
-    DigestStrategy = require('passport-http').DigestStrategy
+    LocalStrategy = require('passport-local').Strategy;
 
 var mongo = require('mongodb');
 var monk = require('monk');
@@ -43,12 +42,7 @@ app.use(function(req,res,next){
 // curl -v -I http://127.0.0.1:3000/
 // curl -v -I --user bob:secret --digest http://127.0.0.1:3000/
 // curl -v -d "hello=world" --user bob:secret --digest http://127.0.0.1:3000/
-app.all('/',
-  // Authenticate using HTTP Digest credentials, with session support disabled.
-  passport.authenticate('digest', { session: false }),
-  function(req, res){
-    res.json({ username: req.user.username, email: req.user.email });
-  });
+app.use('/', routes);
 app.use('/users', users);
 app.use('/tshirts', tshirts);
 app.use('/product', tshirts);
@@ -69,33 +63,21 @@ function findByUsername(username, fn) {
   return fn(null, null);
 }
 
-// Use the DigestStrategy within Passport.
-//   This strategy requires a `secret`function, which is used to look up the
-//   use and the user's password known to both the client and server.  The
-//   password is used to compute a hash, and authentication will fail if the
-//   computed value does not match that of the request.  Also required is a
-//   `validate` function, which can be used to validate nonces and other
-//   authentication parameters contained in the request.
-passport.use(new DigestStrategy({ qop: 'auth' },
-  function(username, done) {
-    // Find the user by username.  If there is no user with the given username
-    // set the user to `false` to indicate failure.  Otherwise, return the
-    // user and user's password.
-    findByUsername(username, function(err, user) {
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    console.log(db.get('users'));
+    db.get('users').findOne({ username: username }, function(err, user) {
       if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      return done(null, user, user.password);
-    })
-  },
-  function(params, done) {
-    // asynchronous validation, for effect...
-    process.nextTick(function () {
-      // check nonces in params here, if desired
-      return done(null, true);
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
     });
   }
 ));
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

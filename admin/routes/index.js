@@ -2,7 +2,8 @@ var express = require('express'),
     router = express.Router(),
     fs = require('fs'),
     formidable = require('formidable'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    passport = require('passport');
 
 
 /* GET home page. */
@@ -10,15 +11,14 @@ router.get('/', function(req, res, next) {
   res.render('home', { title: 'ReactCommerce Admin' });
 });
 
-router.get('/tshirts', function(req, res) {
-  var db = req.db;
-  var collection = db.get('productcollection');
-  collection.find({},{"sort": {"name": 1}},function(e,docs){
-      res.render('products', {
-          "title": "Products",
-          "tshirts" : docs
-      });
-  });
+router.post('/',
+  passport.authenticate('local', { successRedirect: '/dashboard',
+                                   failureRedirect: '/',
+                                   failureFlash: true })
+);
+
+router.get('/dashboard', function(req, res, next) {
+  res.render('dashboard', { title: 'ReactCommerce Admin' });
 });
 
 router.get('/tshirts/new', function(req, res) {
@@ -72,28 +72,6 @@ router.post('/product/edit', function(req, res) {
         //   }
         // });
       }
-          //update it
-          // doc.update({
-          //     name : name,
-          //     badge : badge,
-          //     dob : dob,
-          //     isloved : isloved
-          // }, function (err, blobID) {
-          //   if (err) {
-          //       res.send("There was a problem updating the information to the database: " + err);
-          //   } 
-          //   else {
-          //           //HTML responds by going back to the page or you can be fancy and create a new view that shows a success page.
-          //           res.format({
-          //               html: function(){
-          //                    res.redirect("/blobs/" + blob._id);
-          //              },
-          //              //JSON responds showing the updated values
-          //             json: function(){
-          //                    res.json(blob);
-          //              }
-          //           });
-          //    }
     });
   });
 });
