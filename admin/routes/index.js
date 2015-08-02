@@ -3,22 +3,50 @@ var express = require('express'),
     fs = require('fs'),
     formidable = require('formidable'),
     _ = require('lodash'),
-    passport = require('passport');
+    passport = require('passport'),
+    bCrypt = require('bcrypt-nodejs');
 
+var User = require('../models/user');
+
+
+var isAuthenticated = function (req, res, next) {
+  // if user is authenticated in the session, call the next() to call the next request handler 
+  // Passport adds this method to request object. A middleware is allowed to add properties to
+  // request and response objects
+  if (req.isAuthenticated())
+    return next();
+  // if the user is not authenticated then redirect him to the login page
+  res.redirect('/');
+}
+
+// Generates hash using bCrypt
+var createHash = function(password){
+    return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('home', { title: 'ReactCommerce Admin' });
 });
 
-router.post('/',
-  passport.authenticate('local', { successRedirect: '/dashboard',
-                                   failureRedirect: '/',
-                                   failureFlash: true })
+router.post('/', passport.authenticate('login', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/',
+    failureFlash: true
+  })
 );
 
-router.get('/dashboard', function(req, res, next) {
-  res.render('dashboard', { title: 'ReactCommerce Admin' });
+router.get('/logout', function(req, res, next){
+  req.logout();
+  res.redirect('/');
+});
+
+
+router.get('/dashboard', isAuthenticated, function(req, res){
+  res.render('dashboard', {
+    title: 'ReactCommerce Admin',
+    user: req.user
+  });
 });
 
 router.get('/tshirts/new', function(req, res) {
@@ -155,34 +183,60 @@ router.get('/tshirts/productsdelete/:id', function(req, res) {
 
 
 router.get('/users', function(req, res) {
-  var db = req.db;
-  var collection = db.get('users');
-  collection.find({},{"sort": {"name": 1}},function(e,docs){
-      res.render('users', {
-          "title": "Users",
-          "users" : docs
-      });
+  User.find({}, function (err, docs) {
+    console.log(docs);
+    res.render('users', {
+        "title": "Users",
+        "users" : docs
+    });
   });
 });
+
+
 
 router.get('/users/new', function(req, res) {
     res.render('users-new', { title: 'Add User' });
 });
 
 router.post('/users/add', function(req, res) {
-  var db = req.db;
-  var collection = db.get('users');
   var form = new formidable.IncomingForm();
+  var user = new User();
 
   form.parse(req, function(err, fields, files) {
-    collection.insert(fields, function (err, doc) {
-      if(err){
-        console.log('Shits happen!');
-      }else{
+    user.name = fields.name;
+    user.email = fields.email;
+    user.password = createHash(fields.password);
+
+    // save the user
+    user.save(function(err) {
+        if (err){
+            console.log('Error in Saving user: '+err);  
+            throw err;  
+        }
+        console.log('User Registration succesful');    
+        // return done(null, user);
         res.redirect('/users');
-      }
     });
   });
+
+  // var db = req.db;
+  // var collection = db.get('users');
+  // var form = new formidable.IncomingForm();
+  // var data = {};
+
+  // data.name = fields.name;
+  // data.email = fields.email;
+  // data.password = createHash(fields.password);
+
+  // form.parse(req, function(err, data, files) {
+  //   collection.insert(fields, function (err, doc) {
+  //     if(err){
+  //       console.log('Shits happen!');
+  //     }else{
+  //       res.redirect('/users');
+  //     }
+  //   });
+  // });
 });
 
 router.get('/users/:id/edit', function(req, res){
