@@ -21,7 +21,7 @@ let routes = (
     <Route name='contact' path='/contact' handler={Contact}/>
     <Route name='login' path='/login' handler={Login}/>
     <Route name='tshirt' path='/tshirt/:slug' handler={Product}/>
-    <Route name='my-account' path='/my-account' handler={Product}/>
+    <Route name='my-account' path='/my-account' handler={MyAccount}/>
 	</Route>
 );
 

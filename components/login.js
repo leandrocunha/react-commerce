@@ -11,8 +11,8 @@ export default class Login extends React.Component {
 
     return flux.actions.user.login(email, password)
             .then(() => {
-                this.context.router.transitionTo('app')
-                console.log(flux.store.user.get())
+                this.context.router.transitionTo('app');
+                console.log(flux.store.user.get());
             })
             .catch(showError);
   }
