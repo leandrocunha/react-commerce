@@ -3,6 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 var formidable = require('formidable');
 var bCrypt = require('bcrypt-nodejs');
+var _ = require('lodash');
 
 // MODEL
 var User = require('../models/user');
@@ -24,11 +25,23 @@ router.post('/login', function(req, res, next) {
 
   passport.authenticate('login', function(err, user, info) {
     if (err) { return next(err); }
-    if (!user) { return res.status(403).json({ message: 'error' }); }
+
+    if (!user) { 
+      return res.status(403).json({
+                  error: true,
+                  message: info.message,
+                  errorSystem: err,
+                  user: user
+                });
+    }
+    
     req.logIn(user, function(err) {
       if (err) { return next(err); }
-      return res.json({ message: 'success' });
-      // return res.redirect('/users/' + user.username);
+      return res.json({
+        success: true,
+        message: info,
+        user: user
+      });
     });
   })(req, res, next);
 });

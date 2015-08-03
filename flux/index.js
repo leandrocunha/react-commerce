@@ -51,33 +51,28 @@ let TshirtActions = Flux.createActions(
       })
       .then(function(result) {
         let payload = { actionType: "LIST_TSHIRTS", data: result };
-        console.log(payload);
         return payload;
       }, function(err) {
         console.log(err);
       });
-    },
+    }
+  }
+);
 
-    show() {
-
-      var p = new Promise(function(resolve, reject) {
-        // do a thing, possibly async, then…
-        $.getJSON(`http://localhost:8888/react-commerce/assets/tshirts.json`)
-        .done(function(data){
-          resolve(data);
+let UsersActions = Flux.createActions(
+  {
+    login: function(email, password){
+      return new Promise(function(resolve, reject) {
+        $.post(`${RC.apiURL}/login`, { email: email, password: password })
+          .done(data => resolve(data))
+          .fail( (jqxhr, textStatus, error) => reject(Error(error)) );
         })
-        .fail(function( jqxhr, textStatus, error ){
-          console.log(jqxhr);
-          reject(Error("It broke"));
-        });
-      })
-      .then(function(result) {
-        return { actionType: "GET_TSHIRT", data: result }
-      }, function(err) {
-        console.log(err); // Error: "It broke"
-      });
-
-      return p
+        .then(function(result){
+            let payload = { actionType: 'LOGIN_USER', data: result };
+            return payload;
+          }, function(err){
+            console.log(err);
+          });
     }
   }
 );
@@ -101,7 +96,6 @@ let TshirtStore = Flux.createStore({
   function(payload){
     switch(payload.actionType) {
       case 'LIST_TSHIRTS':
-      console.log('aqui2');
         TshirtStore.list(payload.data);
         break;
 
@@ -118,13 +112,48 @@ let TshirtStore = Flux.createStore({
     return true;
 });
 
+let UserStore = Flux.createStore(
+  {
+    login: function(data){
+      return data.success; // true
+    },
+
+    set: function(data){
+      this.user = data.user; // object user
+    },
+
+    get: function() {
+      return this.user;
+    }
+  },
+
+  function(payload){
+    switch(payload.actionType) {
+      case 'LOGIN_USER':
+        UserStore.login(payload.data);
+        UserStore.set(payload.data);
+        break;
+
+      default:
+        return false;
+    }
+
+    UserStore.emitChange();
+    return true;
+  }
+);
+
+
+// HELPER
 let aliases = {
   actions: {
-    tshirt: TshirtActions
+    tshirt: TshirtActions,
+    user: UsersActions
   },
 
   store: {
-    tshirt: TshirtStore
+    tshirt: TshirtStore,
+    user: UserStore
   }
 }
 

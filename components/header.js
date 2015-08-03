@@ -1,10 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Logotype from './logotype.js';
+import flux from './../flux/';
 
 export default class Header extends React.Component {
 
   render(){
+
+    let user = flux.store.user.get();
+    console.log(user);
 
     return (
     	/* jshint ignore:start */
@@ -33,11 +37,7 @@ export default class Header extends React.Component {
                     Contact Us
                   </Link>
                 </li>
-                <li className="item login">
-                  <Link to ='login'>
-                    Login
-                  </Link>
-                </li>
+                { user ? <li className="item"><Link to='my-account'>My Account</Link></li> : <li className="item login"><Link to='login'>Login</Link></li> }
               </ul>
             </nav>
           </div>

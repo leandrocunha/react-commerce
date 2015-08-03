@@ -82,7 +82,7 @@ app.use('/api', api);
 
 // Passport
 var isValidPassword = function(user, password){
-    return bCrypt.compareSync(password, user.password);
+  return bCrypt.compareSync(password, user.password);
 }
 
 passport.serializeUser(function(user, done) {
@@ -102,8 +102,6 @@ passport.use('login', new LocalStrategy({
     passReqToCallback : true
   },
   function(req, username, password, done) {
-    console.log(username);
-    console.log(password);
     // verifica no mongo se o nome de usuário existe ou não
     User.findOne({ 'email' :  username },
       function(err, user) {
@@ -160,5 +158,9 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
+process.on('uncaughtException', function (err) {
+  console.log(err);
+})
 
 module.exports = app;

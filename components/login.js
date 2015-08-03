@@ -1,15 +1,20 @@
 import React from 'react';
+import flux from './../flux/';
 
 export default class Login extends React.Component {
 
   _handleSubmit(e){
     e.preventDefault();
 
-    let loginComponent = this;
+    let email = $(React.findDOMNode(this.refs.inputEmail)).val();
+    let password = $(React.findDOMNode(this.refs.inputPassword)).val();
 
-    $.post(`${RC.apiURL}/login`, $(e.target).serialize())
-      .done(msg => console.log(msg))
-      .fail(xhr => console.log(xhr));
+    return flux.actions.user.login(email, password)
+            .then(() => {
+                this.context.router.transitionTo('app')
+                console.log(flux.store.user.get())
+            })
+            .catch(showError);
   }
 
   render(){
@@ -24,11 +29,11 @@ export default class Login extends React.Component {
                 <form onSubmit={this._handleSubmit.bind(this)}>
                   <div className="form-row">
                     <label className="label">Email:</label>
-                    <input className="input-text" name="email" type="text" />
+                    <input className="input-text" name="email" ref="inputEmail" type="text" />
                   </div>
                   <div className="form-row">
                     <label className="label">Senha:</label>
-                    <input className="input-text" name="password" type="password" />
+                    <input className="input-text" name="password" ref="inputPassword" type="password" />
                   </div>
                   <div className="form-row">
                     <button className="submit" type="submit">Login</button>
@@ -43,3 +48,7 @@ export default class Login extends React.Component {
     );
   }
 }
+
+Login.contextTypes = {
+  router: React.PropTypes.any.isRequired
+};
