@@ -20,7 +20,6 @@ var mongoose = require('mongoose');
 var db = require('./db.js');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
 var tshirts = require('./routes/tshirts');
 var api = require('./routes/api');
 
@@ -55,10 +54,30 @@ mongoose.connect(db.url);
 // curl -v -I --user bob:secret --digest http://127.0.0.1:3000/
 // curl -v -d "hello=world" --user bob:secret --digest http://127.0.0.1:3000/
 app.use('/', routes);
-app.use('/users', users);
 app.use('/tshirts', tshirts);
 app.use('/product', tshirts);
 app.use('/api', api);
+
+
+// Add headers
+// app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    // res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    // res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    // next();
+// });
 
 
 // Passport

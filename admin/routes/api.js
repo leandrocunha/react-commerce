@@ -18,6 +18,10 @@ router.get('/', function(req, res, next) {
 
 /* authentication */
 router.post('/login', function(req, res, next) {
+  
+  res.header('Access-Control-Allow-Origin', "*");
+  res.header('Access-Control-Allow-Credentials', true);
+
   passport.authenticate('login', function(err, user, info) {
     if (err) { return next(err); }
     if (!user) { return res.status(403).json({ message: 'error' }); }

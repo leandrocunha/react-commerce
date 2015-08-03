@@ -26,7 +26,9 @@ var createHash = function(password){
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('home', { title: 'ReactCommerce Admin' });
+  (req.isAuthenticated()) ?
+    res.redirect('/dashboard') :
+    res.render('home', { title: 'ReactCommerce Admin' });
 });
 
 router.post('/', passport.authenticate('login', {
@@ -260,10 +262,7 @@ router.post('/users/edit', isAuthenticated, function(req, res) {
 });
 
 router.get('/users/:id/delete', isAuthenticated, function(req, res) {
-    var db = req.db;
-    var collection = db.get('users');
-
-    collection.remove({ '_id' : req.params.id }, function(err) {
+    User.remove({ '_id' : req.params.id }, function(err) {
         (err === null) ? res.redirect("/users") : { msg:'error: ' + err };
     });
 });
