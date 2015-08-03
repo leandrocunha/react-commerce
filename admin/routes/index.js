@@ -49,12 +49,12 @@ router.get('/dashboard', isAuthenticated, function(req, res){
   });
 });
 
-router.get('/tshirts/new', function(req, res) {
+router.get('/tshirts/new', isAuthenticated, function(req, res) {
   res.render('productsnew', { title: 'Add New Product' });
 });
 
 /* edit product */
-router.get('/product/:id', function(req, res){
+router.get('/product/:id', isAuthenticated, function(req, res){
   var db = req.db,
       collection = db.get('productcollection'),
       pId = req.params.id;
@@ -70,7 +70,7 @@ router.get('/product/:id', function(req, res){
   });
 });
 
-router.post('/product/edit', function(req, res) {
+router.post('/product/edit', isAuthenticated, function(req, res) {
   var db = req.db,
       collection = db.get('productcollection'),
       form = new formidable.IncomingForm();
@@ -105,7 +105,7 @@ router.post('/product/edit', function(req, res) {
 });
 
 /* POST to Add User Service */
-router.post('/addproduct', function(req, res) {
+router.post('/addproduct', isAuthenticated, function(req, res) {
   
   var db = req.db;
   var collection = db.get('productcollection');
@@ -172,7 +172,7 @@ router.post('/addproduct', function(req, res) {
 
 });
 
-router.get('/tshirts/productsdelete/:id', function(req, res) {
+router.get('/tshirts/productsdelete/:id', isAuthenticated, function(req, res) {
     var db = req.db;
     var collection = db.get('productcollection');
     var userToDelete = req.params.id;
@@ -182,7 +182,7 @@ router.get('/tshirts/productsdelete/:id', function(req, res) {
 });
 
 
-router.get('/users', function(req, res) {
+router.get('/users', isAuthenticated, function(req, res) {
   User.find({}, function (err, docs) {
     console.log(docs);
     res.render('users', {
@@ -194,7 +194,7 @@ router.get('/users', function(req, res) {
 
 
 
-router.get('/users/new', function(req, res) {
+router.get('/users/new', isAuthenticated, function(req, res) {
     res.render('users-new', { title: 'Add User' });
 });
 
@@ -218,28 +218,9 @@ router.post('/users/add', function(req, res) {
         res.redirect('/users');
     });
   });
-
-  // var db = req.db;
-  // var collection = db.get('users');
-  // var form = new formidable.IncomingForm();
-  // var data = {};
-
-  // data.name = fields.name;
-  // data.email = fields.email;
-  // data.password = createHash(fields.password);
-
-  // form.parse(req, function(err, data, files) {
-  //   collection.insert(fields, function (err, doc) {
-  //     if(err){
-  //       console.log('Shits happen!');
-  //     }else{
-  //       res.redirect('/users');
-  //     }
-  //   });
-  // });
 });
 
-router.get('/users/:id/edit', function(req, res){
+router.get('/users/:id/edit', isAuthenticated, function(req, res){
   var db = req.db,
       collection = db.get('users');
 
@@ -254,7 +235,7 @@ router.get('/users/:id/edit', function(req, res){
   });
 });
 
-router.post('/users/edit', function(req, res) {
+router.post('/users/edit', isAuthenticated, function(req, res) {
   var db = req.db,
       collection = db.get('users'),
       form = new formidable.IncomingForm();
@@ -278,7 +259,7 @@ router.post('/users/edit', function(req, res) {
   });
 });
 
-router.get('/users/:id/delete', function(req, res) {
+router.get('/users/:id/delete', isAuthenticated, function(req, res) {
     var db = req.db;
     var collection = db.get('users');
 
