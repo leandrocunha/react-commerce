@@ -22,6 +22,7 @@ var db = require('./db.js');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var tshirts = require('./routes/tshirts');
+var api = require('./routes/api');
 
 var app = express();
 
@@ -57,6 +58,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/tshirts', tshirts);
 app.use('/product', tshirts);
+app.use('/api', api);
 
 
 // Passport
