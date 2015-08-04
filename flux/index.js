@@ -1,4 +1,5 @@
 import McFly from 'mcfly';
+import $ from 'jquery';
 
 let Flux = new McFly();
 
@@ -75,18 +76,22 @@ let UsersActions = Flux.createActions(
           });
     },
 
-    update: function(formData){
-        $.post(`${RC.apiURL}/users/:user_id`, { formData })
+    update: function(user){
+      
+      let loggedUser = UserStore.get();
+
+      return new Promise(function(resolve, reject) {
+        $.put(`${RC.apiURL}/user/${loggedUser.user._id}`, { user })
           .done(data => resolve(data))
           .fail( (jqxhr, textStatus, error) => reject(Error(error)) );
         })
         .then(function(result){
-            let payload = { actionType: 'LOGIN_USER', data: result };
+            let payload = { actionType: 'UPDATE_USER', data: result };
             return payload;
           }, function(err){
             console.log(err);
           });
-    }
+    },
   }
 );
 
@@ -137,6 +142,10 @@ let UserStore = Flux.createStore(
 
     get: function() {
       return this.user;
+    },
+
+    update: function(data){
+      console.log(data);
     }
   },
 
@@ -168,6 +177,23 @@ let aliases = {
     tshirt: TshirtStore,
     user: UserStore
   }
+}
+
+$.put = function(url, data, callback, type){
+ 
+  if ( $.isFunction(data) ){
+    type = type || callback,
+    callback = data,
+    data = {}
+  }
+ 
+  return $.ajax({
+    url: url,
+    type: 'PUT',
+    success: callback,
+    data: data,
+    contentType: type
+  });
 }
 
 module.exports = aliases;
