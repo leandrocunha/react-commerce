@@ -73,6 +73,19 @@ let UsersActions = Flux.createActions(
           }, function(err){
             console.log(err);
           });
+    },
+
+    update: function(formData){
+        $.post(`${RC.apiURL}/users/:user_id`, { formData })
+          .done(data => resolve(data))
+          .fail( (jqxhr, textStatus, error) => reject(Error(error)) );
+        })
+        .then(function(result){
+            let payload = { actionType: 'LOGIN_USER', data: result };
+            return payload;
+          }, function(err){
+            console.log(err);
+          });
     }
   }
 );

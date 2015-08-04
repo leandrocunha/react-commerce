@@ -3,11 +3,23 @@ import flux from './../flux/';
 
 export default class MyAccount extends React.Component {
 
+  _handleSubmit(e){
+    e.preventDefault();
+
+    return flux.actions.user.update($(e.target).serialize())
+            .then(() => {
+                console.log(flux.store.user.get());
+            })
+            .catch(showError);
+  }
+
   render(){
 
     let user = flux.store.user.get();
 
-    (!user) && this.context.router.transitionTo('login');
+    if(!user){
+      this.context.router.transitionTo('login');
+    }
 
     return(
       /* jshint ignore:start */
@@ -16,26 +28,25 @@ export default class MyAccount extends React.Component {
           <div className="container">
             <div className="row">
               <div className="form-wrapper">
-                <h2>My Account</h2>
-                <form>
+                <h2 className="title">My Account</h2>
+                <form onSubmit={this._handleSubmit.bind(this)}>
                   <div className="form-row">
                     <label className="label">Name:</label>
-                    <input className="input-text" name="email" ref="inputEmail" type="text" />
+                    <input className="input-text" name="email" ref="inputEmail" type="text" value={user.name} />
                   </div>
                   <div className="form-row">
                     <label className="label">Email:</label>
-                    <input className="input-text" name="email" ref="inputEmail" type="text" />
+                    <input className="input-text" name="email" ref="inputEmail" type="text" value={user.email} />
                   </div>
                   <div className="form-row">
-                    <label className="label">Password:</label>
-                    <input className="input-text" name="password" ref="inputPassword" type="password" />
+                    <label className="label">Gender:</label>
+                    <select className="input-select">
+                      <option value="1">Female</option>
+                      <option value="2">Male</option>
+                    </select>
                   </div>
                   <div className="form-row">
-                    <label className="label">Password again:</label>
-                    <input className="input-text" name="password" ref="inputPassword" type="password" />
-                  </div>
-                  <div className="form-row">
-                    <button className="submit" type="submit">Login</button>
+                    <button className="submit" type="submit">Edit</button>
                   </div>
                 </form>
               </div>
