@@ -81,7 +81,7 @@ let UsersActions = Flux.createActions(
       let loggedUser = UserStore.get();
 
       return new Promise(function(resolve, reject) {
-        $.put(`${RC.apiURL}/user/${loggedUser.user._id}`, { user })
+        $.put(`${RC.apiURL}/user/${loggedUser._id}`, { user })
           .done(data => resolve(data))
           .fail( (jqxhr, textStatus, error) => reject(Error(error)) );
         })

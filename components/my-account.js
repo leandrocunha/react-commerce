@@ -13,13 +13,26 @@ export default class MyAccount extends React.Component {
             .catch(showError);
   }
 
-  render(){
+  _handleGender(e){
+    e.preventDefault();
+    console.log('gender updated');
+  }
+
+  componentDidMount() {
 
     let user = flux.store.user.get();
+    this.setState(user);
 
-    if(!user){
-      this.context.router.transitionTo('login');
-    }
+    console.log(this.state);
+  }
+
+  render(){
+
+    
+
+    // if(!user){
+    //   this.context.router.transitionTo('login');
+    // }
 
     return(
       /* jshint ignore:start */
@@ -32,15 +45,15 @@ export default class MyAccount extends React.Component {
                 <form onSubmit={this._handleSubmit.bind(this)}>
                   <div className="form-row">
                     <label className="label">Name:</label>
-                    <input className="input-text" name="email" ref="inputEmail" type="text" value={user.name} />
+                    <input className="input-text" name="email" ref="inputEmail" type="text" value={this.state.name} />
                   </div>
                   <div className="form-row">
                     <label className="label">Email:</label>
-                    <input className="input-text" name="email" ref="inputEmail" type="text" value={user.email} />
+                    <input className="input-text" name="email" ref="inputEmail" type="text" value={this.state.name} />
                   </div>
                   <div className="form-row">
                     <label className="label">Gender:</label>
-                    <select className="input-select">
+                    <select className="input-select" value={this.state.gender} onChange={this._handleGender.bind(this)}>
                       <option value="1">Female</option>
                       <option value="2">Male</option>
                     </select>
