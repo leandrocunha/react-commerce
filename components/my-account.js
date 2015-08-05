@@ -28,6 +28,16 @@ export default class MyAccount extends React.Component {
 
   render(){
 
+    let genders = [
+          {
+            gender: "Female",
+            value: 1
+          },
+          {
+            gender: "Male",
+            value: 2
+          }
+        ];
     
 
     // if(!user){
@@ -53,8 +63,14 @@ export default class MyAccount extends React.Component {
                   </div>
                   <div className="form-row">
                     <label className="label">Gender:</label>
-                    <select className="input-select" value={this.state.gender} onChange={this._handleGender.bind(this)}>
-                      <option value="1">Female</option>
+                    <select className="input-select" value="" onChange={this._handleGender.bind(this)}>
+                      {
+                        genders.map(
+                          (gender, i) => (
+                              <option key={i} value={gender.value}>{gender.gender}</option>
+                            )
+                        )
+                      }
                       <option value="2">Male</option>
                     </select>
                   </div>

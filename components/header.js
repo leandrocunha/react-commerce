@@ -36,7 +36,30 @@ export default class Header extends React.Component {
                     Contact Us
                   </Link>
                 </li>
-                { user ? <li className="item"><Link to='my-account'>My Account</Link></li> : <li className="item login"><Link to='login'>Login</Link></li> }
+                {
+                  (user) &&
+                  <li className="item">
+                    <Link to="my-account">
+                      My Account
+                    </Link>
+                  </li>
+                }
+                {
+                  (!user) &&
+                  <li className="item login">
+                    <Link to="login">
+                      Login
+                    </Link>
+                  </li>
+                }
+                {
+                  (!user) &&
+                  <li className="item login">
+                    <Link to="create-account">
+                      Create Account
+                    </Link>
+                  </li>
+                }
               </ul>
             </nav>
           </div>

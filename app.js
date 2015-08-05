@@ -9,6 +9,7 @@ import Contact from './components/contact';
 import Login from './components/login';
 import Product from './components/tshirt';
 import MyAccount from './components/my-account';
+import CreateAccount from './components/create-account';
 
 /* jshint ignore:start */
 global.$ = global.jQuery = $;
@@ -22,6 +23,7 @@ let routes = (
     <Route name='login' path='/login' handler={Login}/>
     <Route name='tshirt' path='/tshirt/:slug' handler={Product}/>
     <Route name='my-account' path='/my-account' handler={MyAccount}/>
+    <Route name='create-account' path='/create-account' handler={CreateAccount}/>
 	</Route>
 );
 

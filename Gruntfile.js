@@ -76,6 +76,7 @@ module.exports = function(grunt) {
           'assets/stylus/*.styl',
           './components/*.js',
           './flux/*.js',
+          './flux/*/*.js',
           './app.js'
         ],
         tasks: ['stylus', 'browserify']

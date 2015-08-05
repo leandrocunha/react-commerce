@@ -76,6 +76,20 @@ let UsersActions = Flux.createActions(
           });
     },
 
+    new: function(user){
+      return new Promise(function(resolve, reject) {
+        $.post(`${RC.apiURL}/users`, user)
+          .done(data => resolve(data))
+          .fail( (jqxhr, textStatus, error) => reject(Error(error)) );
+        })
+        .then(function(result){
+            let payload = { actionType: 'NEW_USER', data: result };
+            return payload;
+          }, function(err){
+            console.log(err);
+          });
+    },
+
     update: function(user){
       
       let loggedUser = UserStore.get();
@@ -144,6 +158,10 @@ let UserStore = Flux.createStore(
       return this.user;
     },
 
+    new: function(data){
+      return data;
+    },
+
     update: function(data){
       console.log(data);
     }
@@ -154,6 +172,10 @@ let UserStore = Flux.createStore(
       case 'LOGIN_USER':
         UserStore.login(payload.data);
         UserStore.set(payload.data);
+        break;
+
+      case 'NEW_USER':
+        UserStore.new(payload.data);
         break;
 
       default:

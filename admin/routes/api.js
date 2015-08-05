@@ -73,6 +73,7 @@ router.post('/users', function(req, res, next) {
   form.parse(req, function(err, fields, files) {
     user.name = fields.name;
     user.email = fields.email;
+    user.gender = fields.gender;
     user.password = createHash(fields.password);
 
     user.save(function(err){
