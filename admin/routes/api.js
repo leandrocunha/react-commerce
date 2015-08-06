@@ -67,7 +67,6 @@ router.get('/users', function(req, res, next) {
 });
 
 router.post('/users', function(req, res, next) {
-  var form = new formidable.IncomingForm();
   var user = new User();
 
   res.header('Access-Control-Allow-Origin', "*");
@@ -82,6 +81,34 @@ router.post('/users', function(req, res, next) {
         success: true,
         message: 'User Registration succesful!',
         user: docs
+      });
+    }
+  });
+});
+
+router.put('/users/:id', function(req, res) {
+
+  res.header('Access-Control-Allow-Origin', "*");
+
+  User.findById(req.params.id, function (err, doc) {
+    if (err){
+      res.json({
+        error: true,
+        message: 'User not found!',
+        errorSystem: err
+      });
+    }else{
+      user = _.merge(doc, req.body);
+      user.save(function(err, docs){
+        if (err){
+          res.json({ message: 'Error in Updating user: ' + err });
+        }else{
+          res.json({
+            success: true,
+            message: 'User Update succesful!',
+            user: docs
+          });
+        }
       });
     }
   });

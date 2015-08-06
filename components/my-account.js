@@ -3,27 +3,19 @@ import flux from './../flux/';
 
 export default class MyAccount extends React.Component {
 
+  constructor(props){
+    super(props);
+    this.state = flux.store.user.get();
+  }
+
   _handleSubmit(e){
     e.preventDefault();
 
-    return flux.actions.user.update($(e.target).serialize())
+    return flux.actions.user.update(this.state)
             .then(() => {
-                console.log(flux.store.user.get());
+                console.log('success');
             })
             .catch(showError);
-  }
-
-  _handleGender(e){
-    e.preventDefault();
-    console.log('gender updated');
-  }
-
-  componentDidMount() {
-
-    let user = flux.store.user.get();
-    this.setState(user);
-
-    console.log(this.state);
   }
 
   render(){
@@ -38,11 +30,6 @@ export default class MyAccount extends React.Component {
             value: 2
           }
         ];
-    
-
-    // if(!user){
-    //   this.context.router.transitionTo('login');
-    // }
 
     return(
       /* jshint ignore:start */
@@ -55,27 +42,30 @@ export default class MyAccount extends React.Component {
                 <form onSubmit={this._handleSubmit.bind(this)}>
                   <div className="form-row">
                     <label className="label">Name:</label>
-                    <input className="input-text" name="email" ref="inputEmail" type="text" value={this.state.name} />
+                    <input className="input-text" name="name" onChange={ e => {this.setState({ name: e.target.value }) } } ref="inputName" type="text" value={this.state.name} />
                   </div>
                   <div className="form-row">
                     <label className="label">Email:</label>
-                    <input className="input-text" name="email" ref="inputEmail" type="text" value={this.state.name} />
+                    <input className="input-text" name="email" onChange={ e => {this.setState({ email: e.target.value }) } } ref="inputEmail" type="email" value={this.state.email} />
                   </div>
                   <div className="form-row">
                     <label className="label">Gender:</label>
-                    <select className="input-select" value="" onChange={this._handleGender.bind(this)}>
+                    <select className="input-text" name="gender" onChange={ e => {this.setState({ gender: e.target.value }) } } ref="inputGender" value={this.state.gender}>
                       {
                         genders.map(
                           (gender, i) => (
-                              <option key={i} value={gender.value}>{gender.gender}</option>
+                              <option key={i}
+                                      value={gender.value}
+                                      selected={(gender.value === this.state.gender) && `selected`}>
+                                {gender.gender}
+                              </option>
                             )
                         )
                       }
-                      <option value="2">Male</option>
                     </select>
                   </div>
                   <div className="form-row">
-                    <button className="submit" type="submit">Edit</button>
+                    <button className="submit" type="submit">Update</button>
                   </div>
                 </form>
               </div>

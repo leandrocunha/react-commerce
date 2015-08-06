@@ -11,13 +11,6 @@ export default class CreateAccount extends React.Component {
   _handleSubmit(e){
     e.preventDefault();
 
-    this.setState({
-      name: $(React.findDOMNode(this.refs.inputName)).val(),
-      email: $(React.findDOMNode(this.refs.inputEmail)).val(),
-      gender: $(React.findDOMNode(this.refs.inputGender)).val(),
-      password: $(React.findDOMNode(this.refs.inputPassword)).val()
-    });
-
     return flux.actions.user.new(this.state)
             .then(() => {
               this.context.router.transitionTo('app');

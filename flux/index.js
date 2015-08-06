@@ -88,6 +88,24 @@ let UsersActions = Flux.createActions(
           }, function(err){
             console.log(err);
           });
+    },
+
+    update: function(user){
+      return new Promise(function(resolve, reject) {
+        $.ajax({
+            url: `${RC.apiURL}/users`,
+            method: 'PUT',
+            data: user
+          })
+          .done(data => resolve(data))
+          .fail( (jqxhr, textStatus, error) => reject(Error(error)) );
+        })
+        .then(function(result){
+            let payload = { actionType: 'UPDATE_USER', data: result };
+            return payload;
+          }, function(err){
+            console.log(err);
+          });
     }
   }
 );
