@@ -1,7 +1,7 @@
 import React from 'react';
 import flux from './../flux/';
 
-export default class MyAccount extends React.Component {
+export default class CreateAccount extends React.Component {
 
   constructor(props){
     super(props);
@@ -20,7 +20,7 @@ export default class MyAccount extends React.Component {
 
     return flux.actions.user.new(this.state)
             .then(() => {
-              console.log('success');
+              this.context.router.transitionTo('app');
             })
             .catch((error) => {
               console.log(error);
@@ -90,3 +90,7 @@ export default class MyAccount extends React.Component {
     );
   }
 }
+
+CreateAccount.contextTypes = {
+  router: React.PropTypes.any.isRequired
+};

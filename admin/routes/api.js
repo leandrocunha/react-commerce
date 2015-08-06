@@ -74,13 +74,14 @@ router.post('/users', function(req, res, next) {
 
   user = _.merge(user, req.body);
 
-  user.save(function(err){
+  user.save(function(err, docs){
     if (err){
       res.json({ message: 'Error in Saving user: ' + err });
     }else{
       res.json({
         success: true,
-        messagem: 'User Registration succesful!'
+        message: 'User Registration succesful!',
+        user: docs
       });
     }
   });

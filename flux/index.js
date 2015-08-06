@@ -88,24 +88,7 @@ let UsersActions = Flux.createActions(
           }, function(err){
             console.log(err);
           });
-    },
-
-    update: function(user){
-      
-      let loggedUser = UserStore.get();
-
-      return new Promise(function(resolve, reject) {
-        $.put(`${RC.apiURL}/user/${loggedUser._id}`, { user })
-          .done(data => resolve(data))
-          .fail( (jqxhr, textStatus, error) => reject(Error(error)) );
-        })
-        .then(function(result){
-            let payload = { actionType: 'UPDATE_USER', data: result };
-            return payload;
-          }, function(err){
-            console.log(err);
-          });
-    },
+    }
   }
 );
 
@@ -146,36 +129,23 @@ let TshirtStore = Flux.createStore({
 
 let UserStore = Flux.createStore(
   {
-    login: function(data){
-      return data.success; // true
-    },
-
     set: function(data){
-      this.user = data.user; // object user
+      this.user = data.user;
     },
 
     get: function() {
       return this.user;
-    },
-
-    new: function(data){
-      return data;
-    },
-
-    update: function(data){
-      console.log(data);
     }
   },
 
   function(payload){
     switch(payload.actionType) {
       case 'LOGIN_USER':
-        UserStore.login(payload.data);
         UserStore.set(payload.data);
         break;
 
       case 'NEW_USER':
-        UserStore.new(payload.data);
+        UserStore.set(payload.data);
         break;
 
       default:

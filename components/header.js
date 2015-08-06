@@ -8,6 +8,7 @@ export default class Header extends React.Component {
   render(){
 
     let user = flux.store.user.get();
+    console.log(user);
 
     return (
     	/* jshint ignore:start */
