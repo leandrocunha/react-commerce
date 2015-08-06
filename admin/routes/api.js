@@ -70,22 +70,19 @@ router.post('/users', function(req, res, next) {
   var form = new formidable.IncomingForm();
   var user = new User();
 
-  form.parse(req, function(err, fields, files) {
-    user.name = fields.name;
-    user.email = fields.email;
-    user.gender = fields.gender;
-    user.password = createHash(fields.password);
+  res.header('Access-Control-Allow-Origin', "*");
 
-    user.save(function(err){
-      if (err){
-        res.json({ message: 'Error in Saving user: ' + err });
-      }else{
-        res.json({
-          success: true,
-          messagem: 'User Registration succesful!'
-        });
-      }
-    });
+  user = _.merge(user, req.body);
+
+  user.save(function(err){
+    if (err){
+      res.json({ message: 'Error in Saving user: ' + err });
+    }else{
+      res.json({
+        success: true,
+        messagem: 'User Registration succesful!'
+      });
+    }
   });
 });
 
