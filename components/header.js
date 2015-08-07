@@ -5,6 +5,14 @@ import flux from './../flux/';
 
 export default class Header extends React.Component {
 
+  _logout(e){
+    e.preventDefault();
+    /*
+     * @todo: call any method to clean session
+     */
+
+  }
+
   render(){
 
     let user = flux.store.user.get();
@@ -42,6 +50,14 @@ export default class Header extends React.Component {
                     <Link to="my-account">
                       My Account
                     </Link>
+                  </li>
+                }
+                {
+                  (user) &&
+                  <li className="item">
+                    <a href="/logout" onClick={this._logout.bind(this)}>
+                      Logout
+                    </a>
                   </li>
                 }
                 {
