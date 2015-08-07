@@ -27,6 +27,24 @@ var app = express();
 
 var User = require('./models/user');
 
+
+// Enables CORS
+var enableCORS = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+ 
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.send(200);
+    }
+    else {
+      next();
+    }
+};
+app.use(enableCORS);
+
+
  // Using the flash middleware provided by connect-flash to store messages in session
  // and displaying in templates
 var flash = require('connect-flash');
@@ -58,19 +76,20 @@ app.use('/tshirts', tshirts);
 app.use('/product', tshirts);
 app.use('/api', api);
 
+
 // Passport
 var isValidPassword = function(user, password){
   return bCrypt.compareSync(password, user.password);
 }
 
 passport.serializeUser(function(user, done) {
-    console.log('serializing user: ');console.log(user);
+    // console.log('serializing user: ');console.log(user);
     done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
     User.findById(id, function(err, user) {
-        console.log('deserializing user:',user);
+        // console.log('deserializing user:',user);
         done(err, user);
     });
 });

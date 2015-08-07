@@ -87,9 +87,6 @@ router.post('/users', function(req, res, next) {
 });
 
 router.put('/users/:id', function(req, res) {
-
-  res.header('Access-Control-Allow-Origin', "*");
-
   User.findById(req.params.id, function (err, doc) {
     if (err){
       res.json({

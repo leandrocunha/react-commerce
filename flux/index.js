@@ -90,10 +90,10 @@ let UsersActions = Flux.createActions(
           });
     },
 
-    update: function(user){
+    update: function(user){      
       return new Promise(function(resolve, reject) {
         $.ajax({
-            url: `${RC.apiURL}/users`,
+            url: `${RC.apiURL}/users/${user._id}`,
             method: 'PUT',
             data: user
           })
@@ -163,6 +163,10 @@ let UserStore = Flux.createStore(
         break;
 
       case 'NEW_USER':
+        UserStore.set(payload.data);
+        break;
+
+      case 'UPDATE_USER':
         UserStore.set(payload.data);
         break;
 
