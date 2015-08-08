@@ -147,7 +147,12 @@ let TshirtStore = Flux.createStore({
 
 let UserStore = Flux.createStore(
   {
+    auth: function(data){
+      localStorage['isSignedIn'] = true;
+    },
+
     set: function(data){
+      console.log(data);
       this.user = data.user;
     },
 
@@ -158,8 +163,9 @@ let UserStore = Flux.createStore(
 
   function(payload){
     switch(payload.actionType) {
-      case 'LOGIN_USER':
+      case 'LOGIN_USER':      
         UserStore.set(payload.data);
+        UserStore.auth(payload.data);
         break;
 
       case 'NEW_USER':
@@ -191,23 +197,6 @@ let aliases = {
     tshirt: TshirtStore,
     user: UserStore
   }
-}
-
-$.put = function(url, data, callback, type){
- 
-  if ( $.isFunction(data) ){
-    type = type || callback,
-    callback = data,
-    data = {}
-  }
- 
-  return $.ajax({
-    url: url,
-    type: 'PUT',
-    success: callback,
-    data: data,
-    contentType: type
-  });
 }
 
 module.exports = aliases;
