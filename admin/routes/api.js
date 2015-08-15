@@ -68,10 +68,17 @@ router.get('/users', function(req, res, next) {
 
 router.post('/users', function(req, res, next) {
   var user = new User();
+  var userTemp;
 
   res.header('Access-Control-Allow-Origin', "*");
 
-  user = _.merge(user, req.body);
+  userTemp = {
+      name: req.body.name,
+      email: req.body.email,
+      password: createHash(req.body.password)
+    };
+
+  user = _.merge(user, userTemp);
 
   user.save(function(err, docs){
     if (err){
