@@ -170,6 +170,8 @@ let UserStore = Flux.createStore(
 
       case 'NEW_USER':
         UserStore.set(payload.data);
+        UserStore.set(payload.data);
+        UserStore.auth(payload.data);
         break;
 
       case 'UPDATE_USER':
