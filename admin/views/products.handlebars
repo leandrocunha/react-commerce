@@ -8,15 +8,15 @@
     <td>Image</td>
     <td>Actions</td>
   </tr>
-{{#tshirts}}
+{{#products}}
   <tr>
     <td>{{name}}</td>
     <td>{{price}}</td>
     <td>{{image}}</td>
     <td>
-      <a href="/product/{{_id}}">Editar</a>
-      <a href="/tshirts/productsdelete/{{_id}}">Excluir</a>
+      <a href="/products/{{_id}}/edit">Editar</a>
+      <a href="/products/{{_id}}/delete">Excluir</a>
     </td>
   </tr>
-{{/tshirts}}
+{{/products}}
 </table>

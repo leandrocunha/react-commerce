@@ -1,0 +1,14 @@
+<h1>{{title}}</h1>
+{{>menu}}
+<form action="/products" method="post" enctype="multipart/form-data">
+  <label>Name:</label>
+  <input name="name" required type="text" />
+  <br><br>
+  <label>Price:</label>
+  <input name="price" required type="text" />
+  <br><br>
+  <label>Image:</label>
+  <input name="image" required type="file" />
+  <br><br>
+  <button type="submit">Add Product</button>
+</form>

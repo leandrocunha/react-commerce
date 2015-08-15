@@ -1,0 +1,17 @@
+<h1>{{title}}</h1>
+{{>menu}}
+
+{{#product}}
+<form action="/products/{{_id}}?_method=PUT" method="post" enctype="multipart/form-data">
+  <label>Name:</label>
+  <input name="name" required type="text" value="{{name}}" />
+  <br><br>
+  <label>Price:</label>
+  <input name="price" required type="text" value="{{price}}" />
+  <br><br>
+  <label>Image:</label>
+  <input name="image" type="file" />
+  <br><br>
+  <button type="submit">Add Product</button>
+</form>
+{{/product}}
