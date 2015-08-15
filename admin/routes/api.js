@@ -75,6 +75,7 @@ router.post('/users', function(req, res, next) {
   userTemp = {
       name: req.body.name,
       email: req.body.email,
+      gender: req.body.gender,
       password: createHash(req.body.password)
     };
 

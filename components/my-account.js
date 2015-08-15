@@ -51,12 +51,12 @@ export default class MyAccount extends React.Component {
                   <div className="form-row">
                     <label className="label">Gender:</label>
                     <select className="input-text" name="gender" onChange={ e => {this.setState({ gender: e.target.value }) } } ref="inputGender" value={this.state.gender}>
+                      <option key="0" value="0">-- select --</option>
                       {
                         genders.map(
                           (gender, i) => (
                               <option key={i}
-                                      value={gender.value}
-                                      selected={(gender.value === this.state.gender) && `selected`}>
+                                      value={gender.value}>
                                 {gender.gender}
                               </option>
                             )
