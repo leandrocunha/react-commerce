@@ -14,7 +14,8 @@ export default class Header extends React.Component {
 
   render(){
 
-    let ls = localStorage['isSignedIn'];
+    // let ls = localStorage['isSignedIn'];
+    let ls = undefined;
     let user;
 
     if(ls){
