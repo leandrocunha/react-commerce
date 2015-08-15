@@ -9,29 +9,12 @@ export default class Header extends React.Component {
     e.preventDefault();
     localStorage.removeItem('isSignedIn');
     flux.store.user.set({});
-    this.context.router.transitionTo( this.context.router.getCurrentPath(), null, { forceRefresh: true }  );
+    this.context.router.transitionTo('app', null, { forceRefresh: true }  );
   }
 
   render(){
 
-    let ls = localStorage.isSignedIn;
-    let user;
-
-    if(ls){
-      flux.store.user.set({
-        success: true,
-        user: {
-            __v: 0,
-            _id: "55be60534600aa610687ec5e",
-            email: "leandroscunha@gmail.com",
-            gender: 2,
-            name: "Leandro Cunha",
-            password: "$2a$10$4WzEbwyHQisMpjAVP4brPO5YPeY435YRP98iUz.sQsz69xEYasaCe"
-          }
-       });
-
-      user = flux.store.user.get();
-    }
+    let logged = localStorage.isSignedIn;
 
     return (
     	/* jshint ignore:start */
@@ -61,7 +44,7 @@ export default class Header extends React.Component {
                   </Link>
                 </li>
                 {
-                  (user) &&
+                  (logged) &&
                   <li className="item">
                     <Link to="my-account">
                       My Account
@@ -69,7 +52,7 @@ export default class Header extends React.Component {
                   </li>
                 }
                 {
-                  (user) &&
+                  (logged) &&
                   <li className="item">
                     <a href="/logout" onClick={this._logout.bind(this)}>
                       Logout
@@ -77,7 +60,7 @@ export default class Header extends React.Component {
                   </li>
                 }
                 {
-                  (!user) &&
+                  (!logged) &&
                   <li className="item login">
                     <Link to="login">
                       Login
@@ -85,7 +68,7 @@ export default class Header extends React.Component {
                   </li>
                 }
                 {
-                  (!user) &&
+                  (!logged) &&
                   <li className="item login">
                     <Link to="create-account">
                       Create Account
