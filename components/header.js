@@ -9,13 +9,12 @@ export default class Header extends React.Component {
     e.preventDefault();
     localStorage.removeItem('isSignedIn');
     flux.store.user.set({});
-    this.context.router.transitionTo('app');
+    this.context.router.transitionTo( this.context.router.getCurrentPath(), null, { forceRefresh: true }  );
   }
 
   render(){
 
-    // let ls = localStorage['isSignedIn'];
-    let ls = undefined;
+    let ls = localStorage.isSignedIn;
     let user;
 
     if(ls){
