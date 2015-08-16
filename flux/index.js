@@ -3,64 +3,31 @@ import $ from 'jquery';
 
 let Flux = new McFly();
 
-let tshirts = {
-  "t-shirt-a": {
-    "name": "T-Shirt A",
-    "slug": "t-shirt-a",
-    "image": "assets/img/tshirt-blue.jpg",
-    "price": "100"
-  },
-  "t-shirt-b": {
-    "name": "T-Shirt B",
-    "slug": "t-shirt-b",
-    "image": "assets/img/tshirt-red.jpg",
-    "price": "100"
-  },
-  "t-shirt-c": {
-    "name": "T-Shirt C",
-    "slug": "t-shirt-c",
-    "image": "assets/img/tshirt-blue.jpg",
-    "price": "100"
-  },
-  "t-shirt-d": {
-    "name": "T-Shirt D",
-    "slug": "t-shirt-d",
-    "image": "assets/img/tshirt-red.jpg",
-    "price": "100"
-  },
-  "t-shirt-e": {
-    "name": "T-Shirt E",
-    "slug": "t-shirt-e",
-    "image": "assets/img/tshirt-blue.jpg",
-    "price": "100"
-  }
-};
-
 // SET ACTIONS
-let TshirtActions = Flux.createActions(
+let ProductActions = Flux.createActions(
   {
-    list: function() {
+    get: function() {
       return new Promise(function(resolve, reject) {
-        $.getJSON(`http://localhost:8888/react-commerce/assets/tshirts.json`)
-        .done(function(data){
-          resolve(data);
+        $.get(`${RC.apiURL}/products`)
+          .done(function(data){
+            resolve(data);
+          })
+          .fail(function( jqxhr, textStatus, error ){
+            console.log(jqxhr);
+            reject(Error("It broke"));
+          });
         })
-        .fail(function( jqxhr, textStatus, error ){
-          console.log(jqxhr);
-          reject(Error("It broke"));
+        .then(function(result) {
+          let payload = { actionType: "GET_PRODUCTS", data: result };
+          return payload;
+        }, function(err) {
+          console.log(err);
         });
-      })
-      .then(function(result) {
-        let payload = { actionType: "LIST_TSHIRTS", data: result };
-        return payload;
-      }, function(err) {
-        console.log(err);
-      });
     }
   }
 );
 
-let UsersActions = Flux.createActions(
+let UserActions = Flux.createActions(
   {
     login: function(email, password){
       return new Promise(function(resolve, reject) {
@@ -112,36 +79,35 @@ let UsersActions = Flux.createActions(
 
 
 // SET STORES
-let TshirtStore = Flux.createStore({
+let ProductStore = Flux.createStore({
 
-    list: function(data){      
-      console.log(data);
+    get: function(data){
       return data;
     },
 
-    get: function(slug){
+    // get: function(slug){
       
-      return tshirts[slug];
-    }
+    //   return tshirts[slug];
+    // }
 
   },
 
   function(payload){
     switch(payload.actionType) {
-      case 'LIST_TSHIRTS':
-        TshirtStore.list(payload.data);
+      case 'GET_PRODUCTS':
+        ProductStore.get(payload.data);        
         break;
 
-      case 'GET_TSHIRT':
+      // case 'GET_TSHIRT':
 
-        TshirtStore.get(payload.slug);
-        break;
+      //   TshirtStore.get(payload.slug);
+      //   break;
 
       default:
         return true;
     }
 
-    TshirtStore.emitChange();
+    ProductStore.emitChange();
     return true;
 });
 
@@ -152,7 +118,6 @@ let UserStore = Flux.createStore(
     },
 
     set: function(data){
-      console.log(data);
       this.user = data.user;
     },
 
@@ -169,7 +134,6 @@ let UserStore = Flux.createStore(
         break;
 
       case 'NEW_USER':
-        UserStore.set(payload.data);
         UserStore.set(payload.data);
         UserStore.auth(payload.data);
         break;
@@ -191,12 +155,12 @@ let UserStore = Flux.createStore(
 // HELPER
 let aliases = {
   actions: {
-    tshirt: TshirtActions,
-    user: UsersActions
+    product: ProductActions,
+    user: UserActions
   },
 
   store: {
-    tshirt: TshirtStore,
+    product: ProductStore,
     user: UserStore
   }
 }

@@ -6,12 +6,15 @@ import Sidebar from './sidebar';
 
 export default class Tshirts extends React.Component {
 
-  componentWillMount() {
+  componentDidMount(){
+    Flux.actions.product.get();
+    Flux.store.product.on('change', () => this.forceUpdate());
   }
 
   render(){
-
-    let products = Flux.actions.tshirt.list();
+    
+    let products = Flux.store.product.get();
+    console.log(products);
 
     return(
     	/* jshint ignore:start */

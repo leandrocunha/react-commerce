@@ -7,6 +7,7 @@ var _ = require('lodash');
 
 // MODEL
 var User = require('../models/user');
+var Product = require('../models/product');
 
 
 // ROUTES
@@ -115,6 +116,26 @@ router.put('/users/:id', function(req, res) {
           });
         }
       });
+    }
+  });
+});
+
+
+/* products */
+router.get('/products', function(req, res, next) {
+  Product.find({}, function (err, docs) {
+    if(err){
+      res.status(403).json({
+        error: true,
+        message: 'Error on try get Products',
+        errorSystem: err
+      });
+    }else{
+     res.json({
+      success: true,
+      message: 'success',
+      data: docs
+     }); 
     }
   });
 });
