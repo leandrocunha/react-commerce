@@ -79,35 +79,46 @@ let UserActions = Flux.createActions(
 
 
 // SET STORES
-let ProductStore = Flux.createStore({
 
-    get: function(data){
-      return data;
+function productStoreFactory() {
+  //a lista de produtos fica salva numa "closure", que é "privada"
+  //dessa forma nós poderíamos tranquilamente isolar a store
+  //num módulo a parte, e dar um require/import
+  //assim como é no dash :p
+
+  let products = [];
+
+  return {
+
+    get() {
+      return products;
     },
 
-    // get: function(slug){
-      
-    //   return tshirts[slug];
-    // }
+    save(data) {
+      products = data;
+    }
 
-  },
+  };
+}
+
+let ProductStore = Flux.createStore(
+  productStoreFactory(),
 
   function(payload){
+
     switch(payload.actionType) {
       case 'GET_PRODUCTS':
-        ProductStore.get(payload.data);        
+        ProductStore.save(payload.data);
+        //só deve ser emitido um evento "change" quando a store for de fato alterada
+        ProductStore.emitChange();
         break;
 
       // case 'GET_TSHIRT':
 
       //   TshirtStore.get(payload.slug);
       //   break;
-
-      default:
-        return true;
     }
 
-    ProductStore.emitChange();
     return true;
 });
 
