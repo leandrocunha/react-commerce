@@ -140,6 +140,24 @@ router.get('/products', function(req, res, next) {
   });
 });
 
+router.get('/products/:slug', function(req, res){
+  Product.find({ 'slug': req.params.slug }, function (err, docs) {
+    if(err){
+      res.status(403).json({
+        error: true,
+        message: 'Error on try get Products',
+        errorSystem: err
+      });
+    }else{
+      res.json({
+        success: true,
+        message: 'success',
+        data: docs
+      });
+    }
+  });
+});
+
 
 // HELPERS
 var createHash = function(password){

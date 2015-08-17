@@ -23,6 +23,25 @@ let ProductActions = Flux.createActions(
         }, function(err) {
           console.log(err);
         });
+    },
+
+    show: function(slug) {
+      return new Promise(function(resolve, reject) {
+        $.get(`${RC.apiURL}/products/${slug}`)
+          .done(function(data){
+            resolve(data);
+          })
+          .fail(function( jqxhr, textStatus, error ){
+            console.log(jqxhr);
+            reject(Error("It broke"));
+          });
+        })
+        .then(function(result) {
+          let payload = { actionType: "SHOW_PRODUCT", data: result };
+          return payload;
+        }, function(err) {
+          console.log(err);
+        });
     }
   }
 );
@@ -86,7 +105,7 @@ function productStoreFactory() {
   //num módulo a parte, e dar um require/import
   //assim como é no dash :p
 
-  let products = [];
+  let products;
 
   return {
 
@@ -94,8 +113,12 @@ function productStoreFactory() {
       return products;
     },
 
+    show(){
+      return products;
+    },
+
     save(data) {
-      products = data;
+      products = data.data;
     }
 
   };
@@ -113,10 +136,10 @@ let ProductStore = Flux.createStore(
         ProductStore.emitChange();
         break;
 
-      // case 'GET_TSHIRT':
-
-      //   TshirtStore.get(payload.slug);
-      //   break;
+      case 'SHOW_PRODUCT':
+        ProductStore.save(payload.data);
+        ProductStore.emitChange();
+        break;
     }
 
     return true;

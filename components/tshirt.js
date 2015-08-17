@@ -1,35 +1,33 @@
 import React from 'react';
-import $ from 'jquery';
 import _ from 'lodash';
-import flux from './../flux/';
+import Flux from './../flux/';
 
 export default class Tshirt extends React.Component {
 
-  componentDidMount() {
-    console.log('chamou a action');
-    flux.actions.tshirt.list();
-  }
-
-  _fetchTshirt(slug){
-    return flux.store.tshirt.get(slug);
+  componentDidMount(){
+    Flux.actions.product.show(this.context.router.getCurrentParams().slug);
+    Flux.store.product.on('change', () => this.forceUpdate());
   }
 
   render(){
-    let slug = this.context.router.getCurrentParams().slug;
-    let tshirt = this._fetchTshirt(slug);
+    
+    let product = Flux.store.product.show();
+
+    //@TODO: Melhorar esse retorno da api pra nao ter q fazer isso
+    let p = (product) && product[0];
 
     return(
       /* jshint ignore:start */
       <section className="product" id="Content">
         <div className="page-content">
           <div className="container">
-            <div className="row">
+            <div className="row">             
               <div className="product-images">
-                <img alt={tshirt.name} src={tshirt.image}/>
+                <img alt={(p) && p.name} src={`admin/public/images/${(p) && p.image}`} />
               </div>
               <div className="product-info">
-                <h1>{tshirt.name}</h1>
-                <p>{tshirt.price}</p>
+                <h1>{(p) && p.name}</h1>
+                <p>{(p) && p.price}</p>
               </div>
             </div>
           </div>

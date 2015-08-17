@@ -12,7 +12,7 @@ var User = require('../models/user');
 var Product = require('../models/product');
 
 
-// AUTH FUNCTION
+// FUNCTIONS
 var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated())
     return next();
@@ -22,6 +22,15 @@ var isAuthenticated = function (req, res, next) {
 var createHash = function(password){
     return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
 }
+
+var slugify = function(text) {
+        return text.toString().toLowerCase()
+          .replace(/\s+/g, '-')        // Replace spaces with -
+          .replace(/[^\w\-]+/g, '')   // Remove all non-word chars
+          .replace(/\-\-+/g, '-')      // Replace multiple - with single -
+          .replace(/^-+/, '')          // Trim - from start of text
+          .replace(/-+$/, '');         // Trim - from end of text
+      }
 
 
 // ROUTES
@@ -74,13 +83,15 @@ router.post('/products', isAuthenticated, function(req, res) {
   var form = new formidable.IncomingForm();
 
   form.parse(req, function(err, fields, files) {
-    console.log(fields);
 
     var productTemp = {
         name: fields.name,
+        slug: slugify(fields.name),
         price: fields.price,
         image: files.image.name
       };
+
+    console.log(productTemp);
 
     /* upload settings */
     var image_upload_path_old = files.image.path;
