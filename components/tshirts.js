@@ -31,10 +31,14 @@ export default class Tshirts extends React.Component {
               <div className="main-column">
                 <div className="products-list">
                   {
-                    _.map(products,
-                      (p, index) => 
-                      <Product key={index} name={p.name} slug={p.slug} image={p.image} price={p.price}/>
-                    )
+                    (products && products.length > 0)
+                    ?
+                      _.map(products,
+                        (p, index) => 
+                        <Product key={index} name={p.name} slug={p.slug} image={p.image} price={p.price}/>
+                      )
+                    :
+                      <p>Products not found</p>
                   }
                 </div>
               </div>

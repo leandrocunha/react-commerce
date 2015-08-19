@@ -15,8 +15,6 @@ export default class MyCart extends React.Component {
   }
 
   render(){
-
-    console.log(this.state);
     
     return(
       /* jshint ignore:start */
@@ -29,10 +27,14 @@ export default class MyCart extends React.Component {
         <div className="page-content">
           <div className="container">
             {
-              _.map(this.state,
-                (p, index) => 
-                <li key={index}>{p.name} - {p.price}</li>
-              )
+              (!$.isEmptyObject(this.state))
+              ?
+                _.map(this.state,
+                  (p, index) => 
+                  <li key={index}>{p.name} - {p.price}</li>
+                )
+              :
+                <p>Your cart is empty!</p>
             }
           </div>
         </div>

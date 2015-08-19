@@ -17,6 +17,7 @@ export default class AddToCart extends React.Component {
         };
 
       localStorage.setItem('cart', JSON.stringify(cart));
+      Flux.actions.cart.add(cart);
 
       this.context.router.transitionTo('my-cart');
     }else{
@@ -27,9 +28,11 @@ export default class AddToCart extends React.Component {
 
   render(){
     return(
+      /* jshint ignore:start */
       <a className="btn" href="#" onClick={this._addToCart.bind(this)}>
           <i className="fa fa-shopping-cart"></i> Add to cart
       </a>
+      /* jshint ignore:end */
     );
   }
 }

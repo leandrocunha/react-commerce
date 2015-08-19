@@ -1,20 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Logotype from './logotype.js';
-import flux from './../flux/';
+import Flux from './../flux/';
 
 export default class Header extends React.Component {
 
   _logout(e){
     e.preventDefault();
     localStorage.removeItem('isSignedIn');
-    flux.store.user.set({});
+    Flux.store.user.set({});
     this.context.router.transitionTo('app', null, { forceRefresh: true }  );
   }
 
   render(){
 
     let logged = localStorage.isSignedIn;
+    let cart = (Flux.store.cart.get()) ? Flux.store.cart.get() : 0;
+    console.log(cart);
 
     return (
     	/* jshint ignore:start */
@@ -47,7 +49,7 @@ export default class Header extends React.Component {
                   (logged) &&
                   <li className="item">
                     <Link to="my-cart">
-                      My Cart
+                      My Cart ({cart})
                     </Link>
                   </li>
                 }

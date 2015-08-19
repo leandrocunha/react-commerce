@@ -96,6 +96,24 @@ let UserActions = Flux.createActions(
   }
 );
 
+let CartActions = Flux.createActions(
+  {
+    add: function(products){
+      return new Promise(function(resolve, reject){
+        $.post(`${RC.apiURL}/cart`, products)
+          .done(data => resolve(data))
+          .fail((jqxhr, textStatus, error) => reject(Error(error)));
+        })
+        .then(function(result){
+            let payload = { actionType: 'ADD_TO_CART', data: result };
+            return payload;
+          }, function(err){
+            console.log(err);
+          });
+    }
+  }
+);
+
 
 // SET STORES
 
@@ -185,17 +203,43 @@ let UserStore = Flux.createStore(
   }
 );
 
+let CartStore = Flux.createStore(
+    {
+      set: function(data){
+        this.products = data.products;
+      },
+
+      get: function(){
+        return this.products;
+      }
+    },
+
+    function(payload){
+      switch(payload.actionType){
+        case 'ADD_TO_CART':
+          CartStore.set(payload.data);
+          CartStore.emitChange();
+          break;
+
+        default:
+          return false;
+      }
+    }
+  );
+
 
 // HELPER
 let aliases = {
   actions: {
     product: ProductActions,
-    user: UserActions
+    user: UserActions,
+    cart: CartActions
   },
 
   store: {
     product: ProductStore,
-    user: UserStore
+    user: UserStore,
+    cart: CartStore
   }
 }
 
