@@ -36,8 +36,22 @@ module.exports = function(grunt) {
           //{expand: true, src: ['bower_components/owl.carousel/src/**'], dest: 'shared/vendors/owl.carousel'},
 
           // makes all src relative to cwd
-          {expand: true, cwd: 'bower_components/', src: ['owl.carousel/src/**'], dest: 'shared/vendors'},
-
+          {
+            expand: true,
+            cwd: 'bower_components/',
+            src: ['owl.carousel/src/**'],
+            dest: 'shared/vendors'
+          },
+          {
+            expand: true,
+            cwd: 'bower_components/',
+            src: [
+                'fontawesome/css/font-awesome.min.css',
+                'fontawesome/css/font-awesome.css.map',
+                'fontawesome/fonts/*'
+              ],
+            dest: 'assets/vendors'
+          }
           // flattens results to a single level
           //{expand: true, flatten: true, src: ['path/**'], dest: 'dest/', filter: 'isFile'},
         ],

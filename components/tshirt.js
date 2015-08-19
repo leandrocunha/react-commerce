@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
+import Numeral from 'numeral';
 import Flux from './../flux/';
+import AddToCart from './add-to-cart';
 
 export default class Tshirt extends React.Component {
 
@@ -26,8 +28,9 @@ export default class Tshirt extends React.Component {
                 <img alt={(p) && p.name} src={`admin/public/images/${(p) && p.image}`} />
               </div>
               <div className="product-info">
-                <h1>{(p) && p.name}</h1>
-                <p>{(p) && p.price}</p>
+                <h1 className="title">{(p) && p.name}</h1>
+                <p>{(p) && Numeral(p.price).format('$ 0,0.00')}</p>
+                <AddToCart name={(p) && p.name} price={(p) && Numeral(p.price).format('$ 0,0.00')} />
               </div>
             </div>
           </div>

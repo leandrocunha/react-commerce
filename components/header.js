@@ -46,6 +46,14 @@ export default class Header extends React.Component {
                 {
                   (logged) &&
                   <li className="item">
+                    <Link to="my-cart">
+                      My Cart
+                    </Link>
+                  </li>
+                }
+                {
+                  (logged) &&
+                  <li className="item">
                     <Link to="my-account">
                       My Account
                     </Link>

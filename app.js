@@ -8,6 +8,7 @@ import Hats from './components/hats';
 import Contact from './components/contact';
 import Login from './components/login';
 import Product from './components/tshirt';
+import MyCart from './components/my-cart';
 import MyAccount from './components/my-account';
 import CreateAccount from './components/create-account';
 
@@ -22,6 +23,7 @@ let routes = (
     <Route name='contact' path='/contact' handler={Contact}/>
     <Route name='login' path='/login' handler={Login}/>
     <Route name='tshirt' path='/tshirt/:slug' handler={Product}/>
+    <Route name='my-cart' path='/my-cart' handler={MyCart}/>
     <Route name='my-account' path='/my-account' handler={MyAccount}/>
     <Route name='create-account' path='/create-account' handler={CreateAccount}/>
 	</Route>
