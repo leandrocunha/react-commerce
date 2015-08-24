@@ -14,6 +14,18 @@ export default class MyCart extends React.Component {
     this.forceUpdate();
   }
 
+  _removeFromCart(e){
+    e.preventDefault();
+
+    let logged = localStorage.isSignedIn;
+
+    if(logged){
+      let me = $(e.target);
+      let product = me.data('product');
+    }
+
+  }
+
   render(){
     
     return(
@@ -26,16 +38,37 @@ export default class MyCart extends React.Component {
         </header>
         <div className="page-content">
           <div className="container">
-            {
-              (!$.isEmptyObject(this.state))
-              ?
-                _.map(this.state,
-                  (p, index) => 
-                  <li key={index}>{p.name} - {p.price}</li>
-                )
-              :
-                <p>Your cart is empty!</p>
-            }
+            <table className="cart-table" width="100%">
+              <thead>
+                <tr>
+                  <th />
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  (!$.isEmptyObject(this.state))
+                  ?
+                    _.map(this.state,
+                      (p, index) => 
+                        <tr key={p.index}>
+                          <td>
+                            <a href="#" data-product={p.name} onClick={this._removeFromCart.bind(this)}>
+                              <i className="fa fa-times" />
+                            </a>
+                          </td>
+                          <td>{p.name}</td>
+                          <td><input type="number" name="quantity" step="1"/></td>
+                          <td>{p.price}</td>
+                        </tr>
+                    )
+                  :
+                    <tr><td colSpan="4">Your cart is empty!</td></tr>
+                }
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
