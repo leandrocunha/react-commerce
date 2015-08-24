@@ -18,6 +18,29 @@ export default class Tshirt extends React.Component {
     //@TODO: Melhorar esse retorno da api pra nao ter q fazer isso
     let p = (product) && product[0];
 
+    let sizes = [
+          {
+            size: "s",
+            label: "S"
+          },
+          {
+            size: "m",
+            label: "M"
+          },
+          {
+            size: "l",
+            label: "Large"
+          },
+          {
+            size: "xl",
+            label: "XL"
+          },
+          {
+            size: "xxl",
+            label: "XXL"
+          }
+        ];
+
     return(
       /* jshint ignore:start */
       <section className="product" id="Content">
@@ -30,6 +53,20 @@ export default class Tshirt extends React.Component {
               <div className="product-info">
                 <h1 className="title">{(p) && p.name}</h1>
                 <p>{(p) && Numeral(p.price).format('$ 0,0.00')}</p>
+                <select className="input-size" name="size" onChange={ e => {this.setState({ size: e.target.value }) } } ref="inputSize" value={ (this.state) && this.state.size}>
+                  <option key="0" value="0">-- select --</option>
+                  {
+                    sizes.map(
+                      (s, i) => (
+                          <option key={i}
+                                  value={s.size}>
+                            {s.label}
+                          </option>
+                        )
+                    )
+                  }
+                </select>
+                <input classtype="number" name="quantity" min="1" value="1"/>
                 <AddToCart name={(p) && p.name} price={(p) && Numeral(p.price).format('$ 0,0.00')} />
               </div>
             </div>

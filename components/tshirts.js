@@ -14,7 +14,6 @@ export default class Tshirts extends React.Component {
   render(){
     
     let products = Flux.store.product.get();
-    console.log(products);
 
     return(
     	/* jshint ignore:start */
