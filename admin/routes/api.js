@@ -8,6 +8,7 @@ var _ = require('lodash');
 // MODEL
 var User = require('../models/user');
 var Product = require('../models/product');
+var Cart = require('../models/cart');
 
 
 // ROUTES
@@ -153,6 +154,34 @@ router.get('/products/:slug', function(req, res){
         success: true,
         message: 'success',
         data: docs
+      });
+    }
+  });
+});
+
+
+/* cart */
+router.post('/cart', function(req, res, next) {
+  var cart = new Cart();
+  var cartTemp;
+
+  res.header('Access-Control-Allow-Origin', "*");
+
+  cartTemp = {
+      uid: req.body.uid,
+      pid: req.body.pid
+    };
+
+  cart = _.merge(cart, cartTemp);
+
+  cart.save(function(err, docs){
+    if (err){
+      res.json({ message: 'Error in Saving cart: ' + err });
+    }else{
+      res.json({
+        success: true,
+        message: 'Cart Registration succesful!',
+        cart: docs
       });
     }
   });

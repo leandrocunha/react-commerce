@@ -5,18 +5,17 @@ export default class AddToCart extends React.Component {
 
   _addToCart(e){
     e.preventDefault();
+    debugger;
 
-    let logged = localStorage.isSignedIn;
+    let logged = localStorage.isSignedIn;    
 
     if(logged){
+      let user = Flux.store.user.get();
       let cart = {
-          product: {
-            name: this.props.name,
-            price: this.props.price
-          }
-        };
+            uid: user._id,
+            pid: this.props.pid
+          };
 
-      localStorage.setItem('cart', JSON.stringify(cart));
       Flux.actions.cart.add(cart);
 
       this.context.router.transitionTo('my-cart');

@@ -67,7 +67,7 @@ export default class Tshirt extends React.Component {
                   }
                 </select>
                 <input classtype="number" name="quantity" min="1" value="1"/>
-                <AddToCart name={(p) && p.name} price={(p) && Numeral(p.price).format('$ 0,0.00')} />
+                <AddToCart pid={(p) && p._id} name={(p) && p.name} price={(p) && Numeral(p.price).format('$ 0,0.00')} />
               </div>
             </div>
           </div>

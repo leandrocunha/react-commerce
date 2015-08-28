@@ -20,8 +20,13 @@ export default class MyCart extends React.Component {
     let logged = localStorage.isSignedIn;
 
     if(logged){
-      let me = $(e.target);
+      let me = $(e.target).hasClass('fa') ? $(e.target).parents('a') : $(e.target);
       let product = me.data('product');
+      let cart = localStorage.getItem('cart');
+      
+      console.log( _.filter(cart, 'name', product) );
+
+      debugger;
     }
 
   }
