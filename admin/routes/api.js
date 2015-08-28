@@ -10,6 +10,8 @@ var User = require('../models/user');
 var Product = require('../models/product');
 var Cart = require('../models/cart');
 
+var APITOKEN = "ReactCommerce"; //@TODO: Jogar esse token para um arquivo de configuração global.
+
 
 // ROUTES
 
@@ -25,26 +27,24 @@ router.post('/login', function(req, res, next) {
   res.header('Access-Control-Allow-Origin', "*");
   res.header('Access-Control-Allow-Credentials', true);
 
-  passport.authenticate('login', function(err, user, info) {
-    if (err) { return next(err); }
+  passport.authenticate('login', function(err, data, info) {
+    
+    if(err){
+      return next(err);
+    }
 
-    if (!user) { 
-      return res.status(403).json({
-                  error: true,
-                  message: info.message,
-                  errorSystem: err,
-                  user: user
-                });
+    if(data.error){ 
+      return res.status(403).json(data);
     }
     
-    req.logIn(user, function(err) {
+    req.logIn(data, function(err, data, info) {
       if (err) { return next(err); }
       return res.json({
         success: true,
-        message: info,
-        user: user
+        data: data
       });
     });
+
   })(req, res, next);
 });
 
@@ -78,7 +78,8 @@ router.post('/users', function(req, res, next) {
       name: req.body.name,
       email: req.body.email,
       gender: req.body.gender,
-      password: createHash(req.body.password)
+      password: createHash(req.body.password),
+      accessToken: createHash(req.body.email + APITOKEN)
     };
 
   user = _.merge(user, userTemp);

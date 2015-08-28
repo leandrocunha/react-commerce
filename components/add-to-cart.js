@@ -5,7 +5,6 @@ export default class AddToCart extends React.Component {
 
   _addToCart(e){
     e.preventDefault();
-    debugger;
 
     let logged = localStorage.isSignedIn;    
 

@@ -25,8 +25,6 @@ export default class MyCart extends React.Component {
       let cart = localStorage.getItem('cart');
       
       console.log( _.filter(cart, 'name', product) );
-
-      debugger;
     }
 
   }

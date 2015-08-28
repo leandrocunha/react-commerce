@@ -104,21 +104,30 @@ passport.use('login', new LocalStrategy({
     // verifica no mongo se o nome de usuário existe ou não
     User.findOne({ 'email' :  username },
       function(err, user) {
+
+        var data = {};
+
         // Em caso de erro, retorne usando o método done
-        if (err)
+        if(err){
           return done(err);
-        // Nome de usuário não existe, logar o erro & redirecione de volta
-        if (!user){
-          console.log('Usuário não encontrado para usuário '+username);
-          return done(null, false,
-                req.flash('message', 'Usuário não encontrado.'));
         }
+
+        // Nome de usuário não existe, logar o erro & redirecione de volta
+        if(!user){
+          data.error = true;
+          data.errorMsg = 'Usuário não encontrado para o e-mail ' + username;
+
+          return done(null, data);
+        };
+
         // Usuário existe mas a senha está errada, logar o erro
         if (!isValidPassword(user, password)){
-          console.log('Senha Inválida');
-          return done(null, false,
-              req.flash('message', 'Senha Inválida'));
+          data.error = true;
+          data.errorMsg = 'Senha inválida!';
+
+          return done(null, data);
         }
+
         // Tanto usuário e senha estão corretos, retorna usuário através 
         // do método done, e, agora, será considerado um sucesso
         return done(null, user);

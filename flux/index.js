@@ -166,7 +166,8 @@ let ProductStore = Flux.createStore(
 let UserStore = Flux.createStore(
   {
     auth: function(data){
-      localStorage['isSignedIn'] = true;
+      console.log(data);
+      localStorage['_rcAccessToken'] = data.user.accessToken;
     },
 
     set: function(data){
