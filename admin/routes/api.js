@@ -36,12 +36,13 @@ router.post('/login', function(req, res, next) {
     if(data.error){ 
       return res.status(403).json(data);
     }
-    
-    req.logIn(data, function(err, data, info) {
+
+    req.logIn(data, function(err) {
       if (err) { return next(err); }
+
       return res.json({
         success: true,
-        data: data
+        user: _.pick(data, 'accessToken')
       });
     });
 
