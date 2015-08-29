@@ -1,5 +1,5 @@
 import React from 'react';
-import flux from './../flux/';
+import Flux from './../flux/';
 
 export default class Login extends React.Component {
 
@@ -9,7 +9,7 @@ export default class Login extends React.Component {
     let email = $(React.findDOMNode(this.refs.inputEmail)).val();
     let password = $(React.findDOMNode(this.refs.inputPassword)).val();
 
-    return flux.actions.user.login(email, password)
+    return Flux.actions.user.login(email, password)
             .then(() => {
               this.context.router.transitionTo('app');
             })

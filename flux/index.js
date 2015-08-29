@@ -1,5 +1,6 @@
 import McFly from 'mcfly';
 import $ from 'jquery';
+import Cookie from 'react-cookie';
 
 let Flux = new McFly();
 
@@ -166,8 +167,7 @@ let ProductStore = Flux.createStore(
 let UserStore = Flux.createStore(
   {
     auth: function(data){
-      console.log(data);
-      localStorage['_rcAccessToken'] = data.user.accessToken;
+      Cookie.save('_UAT', data.user.accessToken);
     },
 
     set: function(data){
@@ -189,6 +189,7 @@ let UserStore = Flux.createStore(
       case 'NEW_USER':
         UserStore.set(payload.data);
         UserStore.auth(payload.data);
+        UserStore.emitChange();
         break;
 
       case 'UPDATE_USER':
@@ -199,7 +200,6 @@ let UserStore = Flux.createStore(
         return false;
     }
 
-    UserStore.emitChange();
     return true;
   }
 );

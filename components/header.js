@@ -2,21 +2,33 @@ import React from 'react';
 import { Link } from 'react-router';
 import Logotype from './logotype.js';
 import Flux from './../flux/';
+import Cookie from 'react-cookie';
 
 export default class Header extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentDidMount(){
+    Flux.store.user.on('change', () => {
+        let _uat = Cookie.load('_UAT');      
+        this.setState({ uat: _uat });
+      });
+  }
+
   _logout(e){
     e.preventDefault();
-    localStorage.removeItem('isSignedIn');
-    Flux.store.user.set({});
-    this.context.router.transitionTo('app', null, { forceRefresh: true }  );
+    Cookie.remove('_UAT');
+    this.state = {};
+    this.forceUpdate();
+    this.context.router.transitionTo('app');
   }
 
   render(){
 
-    let logged = localStorage.isSignedIn;
     let cart = (Flux.store.cart.get()) ? Flux.store.cart.get() : 0;
-    console.log(cart);
 
     return (
     	/* jshint ignore:start */
@@ -46,7 +58,7 @@ export default class Header extends React.Component {
                   </Link>
                 </li>
                 {
-                  (logged) &&
+                  (this.state.uat) &&
                   <li className="item">
                     <Link to="my-cart">
                       My Cart ({cart})
@@ -54,7 +66,7 @@ export default class Header extends React.Component {
                   </li>
                 }
                 {
-                  (logged) &&
+                  (this.state.uat) &&
                   <li className="item">
                     <Link to="my-account">
                       My Account
@@ -62,7 +74,7 @@ export default class Header extends React.Component {
                   </li>
                 }
                 {
-                  (logged) &&
+                  (this.state.uat) &&
                   <li className="item">
                     <a href="/logout" onClick={this._logout.bind(this)}>
                       Logout
@@ -70,7 +82,7 @@ export default class Header extends React.Component {
                   </li>
                 }
                 {
-                  (!logged) &&
+                  (!this.state.uat) &&
                   <li className="item login">
                     <Link to="login">
                       Login
@@ -78,7 +90,7 @@ export default class Header extends React.Component {
                   </li>
                 }
                 {
-                  (!logged) &&
+                  (!this.state.uat) &&
                   <li className="item login">
                     <Link to="create-account">
                       Create Account
