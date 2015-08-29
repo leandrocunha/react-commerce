@@ -12,10 +12,24 @@ export default class Header extends React.Component {
   }
 
   componentDidMount(){
+
+    // try load cookie always on refresh
+    let _uat = Cookie.load('_UAT');
+
+    // if cookie exists, setStore
+    _uat && this.setState({ uat: _uat });
+
+    // when login, change store and update state
     Flux.store.user.on('change', () => {
-        let _uat = Cookie.load('_UAT');      
+
+        // need loading cookie again,
+        // because before this not exists
+        let _uat = Cookie.load('_UAT');
+
         this.setState({ uat: _uat });
       });
+
+    console.log(_uat);
   }
 
   _logout(e){
