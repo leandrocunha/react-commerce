@@ -93,6 +93,20 @@ let UserActions = Flux.createActions(
           }, function(err){
             console.log(err);
           });
+    },
+
+    getAccess: function(uat){      
+      return new Promise(function(resolve, reject) {
+        $.post(`${RC.apiURL}/access`, uat)
+          .done(data => resolve(data))
+          .fail( (jqxhr, textStatus, error) => reject(Error(error)) );
+        })
+        .then(function(result){
+            let payload = { actionType: 'ACCESS_USER', data: result };
+            return payload;
+          }, function(err){
+            console.log(err);
+          });
     }
   }
 );
@@ -195,6 +209,11 @@ let UserStore = Flux.createStore(
 
       case 'UPDATE_USER':
         UserStore.set(payload.data);
+        break;
+
+      case 'ACCESS_USER':
+        UserStore.set(payload.data);
+        UserStore.emitChange();
         break;
 
       default:

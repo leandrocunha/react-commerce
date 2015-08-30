@@ -42,11 +42,28 @@ router.post('/login', function(req, res, next) {
 
       return res.json({
         success: true,
-        user: _.pick(data, 'accessToken')
+        user: _.pick(data, ['accessToken', 'name', 'email', 'gender'])
       });
     });
 
   })(req, res, next);
+});
+
+router.post('/access', function(req, res) {
+  User.find({'accessToken': req.body.uat}, function (err, doc) {
+    if (err){
+      res.json({
+        error: true,
+        message: 'User not found!',
+        errorSystem: err
+      });
+    }else{
+      res.json({
+        success: true,
+        user: _.pick(doc[0], ['accessToken', 'name', 'email', 'gender'])
+      });
+    }
+  });
 });
 
 

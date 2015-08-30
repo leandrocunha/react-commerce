@@ -1,11 +1,22 @@
 import React from 'react';
-import flux from './../flux/';
+import Cookie from 'react-cookie';
+import Flux from './../flux/';
 
 export default class MyAccount extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = flux.store.user.get();
+    this.state = {}
+  }
+
+  componentDidMount(){
+    let user = Flux.store.user.get();
+    user && this.setState(user);
+
+    Flux.store.user.on('change', () => {
+        this.setState(Flux.store.user.get());
+        console.log('teste');
+      });
   }
 
   _handleSubmit(e){
@@ -19,6 +30,10 @@ export default class MyAccount extends React.Component {
   }
 
   render(){
+
+    if(!Cookie.load('_UAT')){
+      this.context.router.transitionTo('app');
+    }
 
     let genders = [
           {
