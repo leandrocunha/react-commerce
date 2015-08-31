@@ -10,8 +10,27 @@ export default class MyCart extends React.Component {
   }
 
   componentDidMount(){
-    this.setState( JSON.parse(localStorage.cart));
-    this.forceUpdate();
+
+    let user = Flux.store.user.get();
+
+    if(user){
+      Flux.actions.cart.get(user)
+        .then( () => {
+          let cart = Flux.store.cart.get();
+        });
+
+    }else{
+      Flux.store.user.on('change', () => {
+        user = Flux.store.user.get();
+        let cart = Flux.store.cart.get(user);
+        console.log(cart);
+        console.log(user);
+      });
+    }
+    // let user = Flux.store.user.get();
+    // Flux.actions.cart.get(user);
+    // this.forceUpdate();
+    
   }
 
   _removeFromCart(e){
@@ -23,8 +42,6 @@ export default class MyCart extends React.Component {
       let me = $(e.target).hasClass('fa') ? $(e.target).parents('a') : $(e.target);
       let product = me.data('product');
       let cart = localStorage.getItem('cart');
-      
-      console.log( _.filter(cart, 'name', product) );
     }
 
   }

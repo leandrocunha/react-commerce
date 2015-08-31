@@ -125,6 +125,26 @@ let CartActions = Flux.createActions(
           }, function(err){
             console.log(err);
           });
+    },
+
+    get: function(user) {
+      console.log(user);
+      return new Promise(function(resolve, reject) {
+        $.get(`${RC.apiURL}/cart/${user.id}`)
+          .done(function(data){
+            resolve(data);
+          })
+          .fail(function( jqxhr, textStatus, error ){
+            console.log(jqxhr);
+            reject(Error("It broke"));
+          });
+        })
+        .then(function(result) {
+          let payload = { actionType: "GET_CART", data: result };
+          return payload;
+        }, function(err) {
+          console.log(err);
+        });
     }
   }
 );
@@ -240,6 +260,10 @@ let CartStore = Flux.createStore(
         case 'ADD_TO_CART':
           CartStore.set(payload.data);
           CartStore.emitChange();
+          break;
+
+        case 'GET_CART':
+          CartStore.get(payload.data);
           break;
 
         default:

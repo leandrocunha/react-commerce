@@ -1,4 +1,5 @@
 import React from 'react';
+import Cookie from 'react-cookie';
 import Flux from './../flux/';
 
 export default class AddToCart extends React.Component {
@@ -6,9 +7,9 @@ export default class AddToCart extends React.Component {
   _addToCart(e){
     e.preventDefault();
 
-    let logged = localStorage.isSignedIn;    
+    let _uat = Cookie.load('_UAT');
 
-    if(logged){
+    if(_uat){
       let user = Flux.store.user.get();
       let cart = {
             uid: user._id,
@@ -16,7 +17,6 @@ export default class AddToCart extends React.Component {
           };
 
       Flux.actions.cart.add(cart);
-
       this.context.router.transitionTo('my-cart');
     }else{
       this.context.router.transitionTo('login');

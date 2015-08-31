@@ -6,12 +6,12 @@ export default class MyAccount extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {}
+    this.state = {};
   }
 
   componentDidMount(){
     let user = Flux.store.user.get();
-    user && this.setState(user);
+    if(user) { this.setState(user); }
 
     Flux.store.user.on('change', () => {
         this.setState(Flux.store.user.get());
