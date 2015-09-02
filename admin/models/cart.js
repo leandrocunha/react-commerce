@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
  
 module.exports = mongoose.model('Cart',{
-  uid: Number,
+  uemail: String,
   pid: String
 });

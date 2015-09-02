@@ -180,6 +180,24 @@ router.get('/products/:slug', function(req, res){
 
 
 /* cart */
+router.get('/cart/:uemail', function(req, res){
+  Cart.find({ 'uemail': req.params.uemail }, function (err, docs) {
+    if(err){
+      res.status(403).json({
+        error: true,
+        message: 'Error on try get Cart',
+        errorSystem: err
+      });
+    }else{
+      res.json({
+        success: true,
+        message: 'success',
+        data: docs
+      });
+    }
+  });
+});
+
 router.post('/cart', function(req, res, next) {
   var cart = new Cart();
   var cartTemp;
@@ -187,7 +205,7 @@ router.post('/cart', function(req, res, next) {
   res.header('Access-Control-Allow-Origin', "*");
 
   cartTemp = {
-      uid: req.body.uid,
+      uemail: req.body.uemail,
       pid: req.body.pid
     };
 

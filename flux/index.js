@@ -130,7 +130,7 @@ let CartActions = Flux.createActions(
     get: function(user) {
       console.log(user);
       return new Promise(function(resolve, reject) {
-        $.get(`${RC.apiURL}/cart/${user.id}`)
+        $.get(`${RC.apiURL}/cart/${user.email}`)
           .done(function(data){
             resolve(data);
           })

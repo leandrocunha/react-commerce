@@ -12,7 +12,7 @@ export default class AddToCart extends React.Component {
     if(_uat){
       let user = Flux.store.user.get();
       let cart = {
-            uid: user._id,
+            uemail: user.email,
             pid: this.props.pid
           };
 
