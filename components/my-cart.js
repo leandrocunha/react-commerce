@@ -22,9 +22,11 @@ export default class MyCart extends React.Component {
     }else{
       Flux.store.user.on('change', () => {
         user = Flux.store.user.get();
-        let cart = Flux.store.cart.get(user);
-        console.log(cart);
-        console.log(user);
+        
+        Flux.actions.cart.get(user)
+          .then( () => {
+            let cart = Flux.store.cart.get();
+          });
       });
     }
     // let user = Flux.store.user.get();
