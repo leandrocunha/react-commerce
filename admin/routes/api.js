@@ -206,7 +206,8 @@ router.post('/cart', function(req, res, next) {
 
   cartTemp = {
       uemail: req.body.uemail,
-      pid: req.body.pid
+      name: req.body.name,
+      price: req.body.price
     };
 
   cart = _.merge(cart, cartTemp);

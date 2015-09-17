@@ -59,14 +59,15 @@ export default class MyCart extends React.Component {
                 <tr>
                   <th />
                   <th>Product</th>
-                  <th>Quantity</th>
                   <th>Price</th>
                 </tr>
               </thead>
               <tbody>
                 {
-                  (cart)
+                  (!cart || cart.length === 0)
                   ?
+                    <tr><td colSpan="4">Your cart is empty!</td></tr>
+                  :
                     _.map(cart,
                       (p, index) => 
                         <tr key={p._id}>
@@ -76,12 +77,9 @@ export default class MyCart extends React.Component {
                             </a>
                           </td>
                           <td>{p.name}</td>
-                          <td><input type="number" name="quantity" step="1"/></td>
                           <td>{p.price}</td>
                         </tr>
                     )
-                  :
-                    <tr><td colSpan="4">Your cart is empty!</td></tr>
                 }
               </tbody>
             </table>

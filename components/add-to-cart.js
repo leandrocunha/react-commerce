@@ -13,7 +13,8 @@ export default class AddToCart extends React.Component {
       let user = Flux.store.user.get();
       let cart = {
             uemail: user.email,
-            pid: this.props.pid
+            name: this.props.name,
+            price: this.props.price            
           };
 
       Flux.actions.cart.add(cart);
