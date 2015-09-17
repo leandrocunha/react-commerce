@@ -128,7 +128,6 @@ let CartActions = Flux.createActions(
     },
 
     get: function(user) {
-      console.log(user);
       return new Promise(function(resolve, reject) {
         $.get(`${RC.apiURL}/cart/${user.email}`)
           .done(function(data){
@@ -247,7 +246,7 @@ let UserStore = Flux.createStore(
 let CartStore = Flux.createStore(
     {
       set: function(data){
-        this.products = data.products;
+        this.products = data.data;
       },
 
       get: function(){
@@ -263,7 +262,7 @@ let CartStore = Flux.createStore(
           break;
 
         case 'GET_CART':
-          CartStore.get(payload.data);
+          CartStore.set(payload.data);
           break;
 
         default:

@@ -15,21 +15,15 @@ export default class MyCart extends React.Component {
 
     if(user){
       Flux.actions.cart.get(user)
-        .then( () => {
-          let cart = Flux.store.cart.get();
-        });
-
+        .then(() => this.forceUpdate());
     }else{
       Flux.store.user.on('change', () => {
-        user = Flux.store.user.get();
-        let cart = Flux.store.cart.get(user);
-        console.log(cart);
-        console.log(user);
-      });
+          user = Flux.store.user.get();
+    
+          Flux.actions.cart.get(user)
+            .then(() => this.forceUpdate());
+        });
     }
-    // let user = Flux.store.user.get();
-    // Flux.actions.cart.get(user);
-    // this.forceUpdate();
     
   }
 
@@ -47,7 +41,9 @@ export default class MyCart extends React.Component {
   }
 
   render(){
-    
+
+    let cart = Flux.store.cart.get();
+
     return(
       /* jshint ignore:start */
       <section className="my-cart" id="Content">
@@ -69,11 +65,11 @@ export default class MyCart extends React.Component {
               </thead>
               <tbody>
                 {
-                  (!$.isEmptyObject(this.state))
+                  (cart)
                   ?
-                    _.map(this.state,
+                    _.map(cart,
                       (p, index) => 
-                        <tr key={p.index}>
+                        <tr key={p._id}>
                           <td>
                             <a href="#" data-product={p.name} onClick={this._removeFromCart.bind(this)}>
                               <i className="fa fa-times" />

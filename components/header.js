@@ -44,7 +44,8 @@ export default class Header extends React.Component {
 
   render(){
 
-    let cart = (Flux.store.cart.get()) ? Flux.store.cart.get() : 0;
+    // let cart = (Flux.store.cart.get()) ? Flux.store.cart.get() : 0;
+    let cart = 0;
 
     return (
     	/* jshint ignore:start */
