@@ -207,6 +207,8 @@ router.post('/cart', function(req, res, next) {
   cartTemp = {
       uemail: req.body.uemail,
       name: req.body.name,
+      size: req.body.size,
+      quantity: req.body.quantity,
       price: req.body.price
     };
 

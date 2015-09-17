@@ -6,6 +6,11 @@ import AddToCart from './add-to-cart';
 
 export default class Tshirt extends React.Component {
 
+  constructor(props){
+    super(props);
+    this.state = { quantity: 1 };
+  }
+
   componentDidMount(){
     Flux.actions.product.show(this.context.router.getCurrentParams().slug);
     Flux.store.product.on('change', () => this.forceUpdate());
@@ -53,7 +58,7 @@ export default class Tshirt extends React.Component {
               <div className="product-info">
                 <h1 className="title">{(p) && p.name}</h1>
                 <p>{(p) && Numeral(p.price).format('$ 0,0.00')}</p>
-                <select className="input-size" name="size" onChange={ e => {this.setState({ size: e.target.value }) } } ref="inputSize" value={ (this.state) && this.state.size}>
+                <select className="input-size" name="size" onChange={ e => {this.setState({ size: e.target.value }) } } ref="inputSize" value={this.state.size}>
                   <option key="0" value="0">-- select --</option>
                   {
                     sizes.map(
@@ -66,8 +71,19 @@ export default class Tshirt extends React.Component {
                     )
                   }
                 </select>
-                <input classtype="number" name="quantity" min="1" value="1"/>
-                <AddToCart pid={(p) && p._id} name={(p) && p.name} price={(p) && Numeral(p.price).format('$ 0,0.00')} />
+
+                <input min="1"
+                       name="quantity"
+                       onChange={ e => {this.setState({ quantity: e.target.value })} }
+                       step="1"
+                       type="number"
+                       value={this.state.quantity} />
+
+                <AddToCart pid={(p) && p._id}
+                           name={(p) && p.name}
+                           size={(this.state.size) && this.state.size}
+                           quantity={this.state.quantity}
+                           price={(p) && Numeral(p.price).format('$ 0,0.00')} />
               </div>
             </div>
           </div>

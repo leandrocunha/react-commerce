@@ -59,6 +59,8 @@ export default class MyCart extends React.Component {
                 <tr>
                   <th />
                   <th>Product</th>
+                  <th>Size</th>
+                  <th>Qnt</th>
                   <th>Price</th>
                 </tr>
               </thead>
@@ -77,6 +79,8 @@ export default class MyCart extends React.Component {
                             </a>
                           </td>
                           <td>{p.name}</td>
+                          <td>{p.size}</td>
+                          <td>{p.quantity}</td>
                           <td>{p.price}</td>
                         </tr>
                     )

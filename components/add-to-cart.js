@@ -7,20 +7,26 @@ export default class AddToCart extends React.Component {
   _addToCart(e){
     e.preventDefault();
 
-    let _uat = Cookie.load('_UAT');
-
-    if(_uat){
-      let user = Flux.store.user.get();
-      let cart = {
-            uemail: user.email,
-            name: this.props.name,
-            price: this.props.price            
-          };
-
-      Flux.actions.cart.add(cart);
-      this.context.router.transitionTo('my-cart');
+    if(!this.props.size){
+      $(React.findDOMNode(this.refs.flashMsg)).html('Select a size!');
     }else{
-      this.context.router.transitionTo('login');
+      let _uat = Cookie.load('_UAT');
+
+      if(_uat){
+        let user = Flux.store.user.get();
+        let cart = {
+              uemail: user.email,
+              name: this.props.name,
+              size: this.props.size,
+              quantity: this.props.quantity,
+              price: this.props.price
+            };
+
+        Flux.actions.cart.add(cart);
+        this.context.router.transitionTo('my-cart');
+      }else{
+        this.context.router.transitionTo('login');
+      }
     }
 
   }
@@ -28,9 +34,12 @@ export default class AddToCart extends React.Component {
   render(){
     return(
       /* jshint ignore:start */
-      <a className="btn" href="#" onClick={this._addToCart.bind(this)}>
+      <div className="add-to-cart-wrapper">
+        <span className="flash-msg" ref="flashMsg"/>
+        <a className="btn" href="#" onClick={this._addToCart.bind(this)}>
           <i className="fa fa-shopping-cart"></i> Add to cart
-      </a>
+        </a>
+      </div>
       /* jshint ignore:end */
     );
   }
