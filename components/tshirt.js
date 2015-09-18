@@ -83,7 +83,7 @@ export default class Tshirt extends React.Component {
                            name={(p) && p.name}
                            size={(this.state.size) && this.state.size}
                            quantity={this.state.quantity}
-                           price={(p) && Numeral(p.price).format('$ 0,0.00')} />
+                           price={(p) && p.price} />
               </div>
             </div>
           </div>

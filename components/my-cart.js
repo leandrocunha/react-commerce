@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import Flux from './../flux/';
+import CartTotal from './cart-total';
 
 export default class MyCart extends React.Component {
 
@@ -25,19 +26,6 @@ export default class MyCart extends React.Component {
         });
     }
     
-  }
-
-  _removeFromCart(e){
-    e.preventDefault();
-
-    let logged = localStorage.isSignedIn;
-
-    if(logged){
-      let me = $(e.target).hasClass('fa') ? $(e.target).parents('a') : $(e.target);
-      let product = me.data('product');
-      let cart = localStorage.getItem('cart');
-    }
-
   }
 
   render(){
@@ -66,7 +54,7 @@ export default class MyCart extends React.Component {
               </thead>
               <tbody>
                 {
-                  (!cart || cart.length === 0)
+                  (_.isEmpty(cart))
                   ?
                     <tr><td colSpan="4">Your cart is empty!</td></tr>
                   :
@@ -74,7 +62,7 @@ export default class MyCart extends React.Component {
                       (p, index) => 
                         <tr key={p._id}>
                           <td>
-                            <a href="#" data-product={p.name} onClick={this._removeFromCart.bind(this)}>
+                            <a href="#" data-product={p.name}>
                               <i className="fa fa-times" />
                             </a>
                           </td>
@@ -86,6 +74,14 @@ export default class MyCart extends React.Component {
                     )
                 }
               </tbody>
+              <tfooter>
+                <tr>
+                  <td colSpan="4">Total:</td>
+                  <td>
+                    <CartTotal products={cart} />
+                  </td>
+                </tr>
+              </tfooter>
             </table>
           </div>
         </div>

@@ -263,6 +263,7 @@ let CartStore = Flux.createStore(
 
         case 'GET_CART':
           CartStore.set(payload.data);
+          CartStore.emitChange();
           break;
 
         default:

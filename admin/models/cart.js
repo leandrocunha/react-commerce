@@ -5,5 +5,5 @@ module.exports = mongoose.model('Cart',{
   name: String,
   size: String,
   quantity: Number,
-  price: String  
+  price: Number
 });
