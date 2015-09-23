@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require('mongoose');
 var passport = require('passport');
 var formidable = require('formidable');
 var bCrypt = require('bcrypt-nodejs');
@@ -9,6 +10,8 @@ var _ = require('lodash');
 var User = require('../models/user');
 var Product = require('../models/product');
 var Cart = require('../models/cart');
+
+var ObjectId = mongoose.Types.ObjectId;
 
 var APITOKEN = "ReactCommerce"; //@TODO: Jogar esse token para um arquivo de configuração global.
 
@@ -199,8 +202,9 @@ router.get('/cart/:uemail', function(req, res){
 });
 
 router.post('/cart', function(req, res, next) {
-  var cart = new Cart();
+  // var cart = new Cart();
   var cartTemp;
+  var validObjectId = (mongoose.Types.ObjectId.isValid(req.body._id)) ? req.body._id : 0;
 
   res.header('Access-Control-Allow-Origin', "*");
 
@@ -212,9 +216,7 @@ router.post('/cart', function(req, res, next) {
       price: req.body.price
     };
 
-  cart = _.merge(cart, cartTemp);
-
-  cart.save(function(err, docs){
+  Cart.findOneAndUpdate({'_id': validObjectId}, cartTemp, { upsert: true }, function(err, docs){
     if (err){
       res.json({ message: 'Error in Saving cart: ' + err });
     }else{
@@ -225,6 +227,20 @@ router.post('/cart', function(req, res, next) {
       });
     }
   });
+
+  // cart = _.merge(cart, cartTemp);
+
+  // cart.findOneAndUpdate({'_id': req.body._id}, cartTemp, { upsert: true }, function(err, docs){
+  //   if (err){
+  //     res.json({ message: 'Error in Saving cart: ' + err });
+  //   }else{
+  //     res.json({
+  //       success: true,
+  //       message: 'Cart Registration succesful!',
+  //       cart: docs
+  //     });
+  //   }
+  // });
 });
 
 

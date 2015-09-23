@@ -46,6 +46,7 @@
     "react": "^0.13.3",
     "react-cookie": "^0.3.4",
     "react-router": "^0.13.3",
+    "react-serial-forms": "^1.1.2",
     "responsa": "*",
     "rupture": "~0.6.1",
     "serve-favicon": "~2.2.1",
