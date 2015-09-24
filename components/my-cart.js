@@ -57,7 +57,7 @@ export default class MyCart extends React.Component {
   }
 
   _updateTotal(e){
-    e.preventDefault;
+    e.preventDefault();
     _.map(this.state.products, (p, index) => {
         Flux.actions.cart.add(p);
       });

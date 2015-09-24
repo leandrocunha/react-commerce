@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import FeaturedCarousel from './featured-carousel';
+import ProductsList from './products/list';
 import Product from './product';
 
 export default class Content extends React.Component {
@@ -42,12 +43,7 @@ export default class Content extends React.Component {
         <div className="products-list featured-products">
           <div className="container">
             <div className="row">
-              {
-                _.map(featured_products,
-                  (p, index) =>
-                  <Product key={index} name={p.name} slug={p.slug} image={p.image} price={p.price}/>
-                )
-              }
+              <ProductsList />
             </div>
           </div>
         </div>
