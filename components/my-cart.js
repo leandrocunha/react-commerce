@@ -13,29 +13,38 @@ export default class MyCart extends React.Component {
 
   componentDidMount(){
 
-    let user = Flux.store.user.get();
+    let user = Flux.store.user.get();    
 
     if(user){
+      console.log(user);
       Flux.actions.cart.get(user)
-        .then(() => this.forceUpdate());
+        .then(() => {
+          let cart = Flux.store.cart.get();
+          this.setState({cart: cart});
+        });
     }else{
       Flux.store.user.on('change', () => {
-          user = Flux.store.user.get();
+        console.log(user);
+    //       user = Flux.store.user.get();
     
-          Flux.actions.cart.get(user)
-            .then(() => {
-                // console.log( Flux.store.cart.get() )
-                let cart = Flux.store.cart.get();
-                this.setState({products: cart});
-                this.forceUpdate();
-              });
+    //       Flux.actions.cart.get(user)
+    //         .then(() => {
+    //             let cart = Flux.store.cart.get();
+    //           });
         });
     }
     
   }
 
-  _updateCart(i, e){
+  _updateCart(e, index){
     // e.preventDefault();
+
+    const newValue = e.target.value;
+    const cart = this.state.cart.concat(); //esse .concat() clona o array, pq é legal manter as referências imutáveis
+
+    cart[index].quantity = newValue;
+
+    this.setState({cart});
     
     // let quantity = $(e.target).val();
     // this.setState({
@@ -48,11 +57,11 @@ export default class MyCart extends React.Component {
     // console.log(i);
     // console.log(e);
 
-    const products = this.state.products.concat(); //esse .concat() clona o array, pq é legal manter as referências imutáveis
+    // const products = this.state.products.concat(); //esse .concat() clona o array, pq é legal manter as referências imutáveis
 
-    products[i].quantity++;
+    // products[i].quantity++;
 
-    this.setState({products, updated: true});
+    // this.setState({products, updated: true});
 
   }
 
@@ -64,9 +73,6 @@ export default class MyCart extends React.Component {
   }
 
   render(){
-
-    let cart = Flux.store.cart.get();
-    console.log(this.state);
 
     return(
       /* jshint ignore:start */
@@ -91,32 +97,28 @@ export default class MyCart extends React.Component {
               </thead>
               <tbody>
                 {
-                  (_.isEmpty(cart))
-                  ?
-                    <tr><td colSpan="4">Your cart is empty!</td></tr>
-                  :
-                    _.map(cart,
-                      (p, index) => 
-                        <tr key={p._id}>
-                          <td>
-                            <a href="#" data-product={p.name}>
-                              <i className="fa fa-times" />
-                            </a>
-                          </td>
-                          <td>{p.name}</td>
-                          <td>{p.size}</td>
-                          <td>
-                            <input min="1"
-                                   name="quantity"
-                                   onChange={this._updateCart.bind(this, index)}
-                                   step="1"
-                                   type="number"
-                                   value={this.state.products[index].quantity} />
-                          </td>
-                          <td>{p.price}</td>
-                          <td>{ (this.state.products[index].quantity * p.price) }</td>
-                        </tr>
-                    )
+                  _.map(this.state.cart,
+                    (p, index) => 
+                      <tr key={p._id}>
+                        <td>
+                          <a href="#" data-product={p.name}>
+                            <i className="fa fa-times" />
+                          </a>
+                        </td>
+                        <td>{p.name}</td>
+                        <td>{p.size}</td>
+                        <td>
+                          <input min="1"
+                                 name="quantity"
+                                 onChange={this._updateCart.bind(this, index)}
+                                 step="1"
+                                 type="number"
+                                 value={p.quantity} />
+                        </td>
+                        <td>{p.price}</td>
+                        <td>{p.price * p.quantity}</td>
+                      </tr>
+                  )
                 }
               </tbody>
               <tfooter>
