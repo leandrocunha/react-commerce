@@ -13,10 +13,9 @@ export default class MyCart extends React.Component {
 
   componentDidMount(){
 
-    let user = Flux.store.user.get();    
+    let user = Flux.store.user.get();
 
     if(user){
-      console.log(user);
       Flux.actions.cart.get(user)
         .then(() => {
           let cart = Flux.store.cart.get();
@@ -24,52 +23,25 @@ export default class MyCart extends React.Component {
         });
     }else{
       Flux.store.user.on('change', () => {
-        console.log(user);
-    //       user = Flux.store.user.get();
-    
-    //       Flux.actions.cart.get(user)
-    //         .then(() => {
-    //             let cart = Flux.store.cart.get();
-    //           });
+          user = Flux.store.user.get();
+          Flux.actions.cart.get(user)
+            .then(() => {
+                let cart = Flux.store.cart.get();
+                this.setState({cart: cart});
+              });
         });
     }
     
   }
 
-  _updateCart(e, index){
-    // e.preventDefault();
+  _updateCart(index, e){
 
-    const newValue = e.target.value;
+    const newValue = $(e.target).val();
     const cart = this.state.cart.concat(); //esse .concat() clona o array, pq é legal manter as referências imutáveis
 
     cart[index].quantity = newValue;
 
     this.setState({cart});
-    
-    // let quantity = $(e.target).val();
-    // this.setState({
-    //     products: 
-    //     [i]:
-    //       {
-    //         quantity: $(e.target).val()
-    //       }
-    //   })
-    // console.log(i);
-    // console.log(e);
-
-    // const products = this.state.products.concat(); //esse .concat() clona o array, pq é legal manter as referências imutáveis
-
-    // products[i].quantity++;
-
-    // this.setState({products, updated: true});
-
-  }
-
-  _updateTotal(e){
-    e.preventDefault();
-    _.map(this.state.products, (p, index) => {
-        Flux.actions.cart.add(p);
-      });
   }
 
   render(){
@@ -123,17 +95,9 @@ export default class MyCart extends React.Component {
               </tbody>
               <tfooter>
                 <tr>
-                  <td colSpan="4">Total:</td>
+                  <td colSpan="5">Total:</td>
                   <td>
-                    {
-                      this.state.updated
-                        ? <button onClick={this._updateTotal.bind(this)}>Atualizar total</button>
-                        : <button disabled>Atualizar total</button>
-                    }
-                    
-                  </td>
-                  <td>
-                    <CartTotal products={this.state} />
+                    <CartTotal products={this.state.cart} />
                   </td>
                 </tr>
               </tfooter>

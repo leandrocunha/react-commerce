@@ -8,10 +8,11 @@ export default class Tshirt extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = { quantity: 1 };
+    this.state = {};
   }
 
   componentDidMount(){
+    this.setState({quantity: 1});
     Flux.actions.product.show(this.context.router.getCurrentParams().slug);
     Flux.store.product.on('change', () => this.forceUpdate());
   }

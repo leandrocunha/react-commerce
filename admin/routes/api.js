@@ -202,45 +202,30 @@ router.get('/cart/:uemail', function(req, res){
 });
 
 router.post('/cart', function(req, res, next) {
-  // var cart = new Cart();
-  var cartTemp;
-  var validObjectId = (mongoose.Types.ObjectId.isValid(req.body._id)) ? req.body._id : 0;
+  var cart = new Cart(),
+      cartTemp = {};
 
   res.header('Access-Control-Allow-Origin', "*");
 
-  cartTemp = {
-      uemail: req.body.uemail,
-      name: req.body.name,
-      size: req.body.size,
-      quantity: req.body.quantity,
-      price: req.body.price
-    };
+  cartTemp.uemail = req.body.uemail;
+  cartTemp.name = req.body.name;
+  cartTemp.size = req.body.size;
+  cartTemp.quantity = req.body.quantity;
+  cartTemp.price = req.body.price;
 
-  Cart.findOneAndUpdate({'_id': validObjectId}, cartTemp, { upsert: true }, function(err, docs){
+  cart = _.merge(cart, cartTemp);
+
+  cart.save(function(err, cart){
     if (err){
-      res.json({ message: 'Error in Saving cart: ' + err });
+      res.json({ message: 'Error saving cart: ' + err });
     }else{
       res.json({
         success: true,
-        message: 'Cart Registration succesful!',
-        cart: docs
+        message: 'Cart save with succesful!',
+        cart: cart
       });
     }
   });
-
-  // cart = _.merge(cart, cartTemp);
-
-  // cart.findOneAndUpdate({'_id': req.body._id}, cartTemp, { upsert: true }, function(err, docs){
-  //   if (err){
-  //     res.json({ message: 'Error in Saving cart: ' + err });
-  //   }else{
-  //     res.json({
-  //       success: true,
-  //       message: 'Cart Registration succesful!',
-  //       cart: docs
-  //     });
-  //   }
-  // });
 });
 
 

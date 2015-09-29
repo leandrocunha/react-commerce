@@ -22,8 +22,8 @@ export default class AddToCart extends React.Component {
               price: this.props.price
             };
 
-        Flux.actions.cart.add(cart);
-        this.context.router.transitionTo('my-cart');
+        Flux.actions.cart.add(cart).
+          then(() => this.context.router.transitionTo('my-cart'));
       }else{
         this.context.router.transitionTo('login');
       }
