@@ -167,6 +167,34 @@ let CartActions = Flux.createActions(
         }, function(err) {
           console.log(err);
         });
+    },
+
+    checkout: function(cart){
+      return new Promise(function(resolve, reject){
+          $.ajax({
+            url: `https://ws.sandbox.pagseguro.uol.com.br/v2/checkout`,
+            contentType: 'application/xml; charset=ISO-8859-1',
+            type: 'POST',
+            data: {
+              email: 'leandroscunha@gmail.com',
+              token: '64653890FA2B4623A735883A7B4C0C2B',
+              currency: 'BRL',
+              itemId1: 1,
+              itemDescription1: 'Notebook Prata',
+              itemAmount1: '24300.00',
+              itemQuantity1: 1,
+              itemWeight1: 1000
+            }
+          })
+          .done(data => resolve(data))
+          .fail((jqxhr, textStatus, error) => reject(Error(error)));
+        })
+        .then(function(result){
+            let payload = { actionType: 'CHECKOUT', data: result };
+            return payload;
+          }, function(err){
+            console.log(err);
+          });
     }
   }
 );

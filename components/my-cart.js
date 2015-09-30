@@ -58,6 +58,15 @@ export default class MyCart extends React.Component {
         });
   }
 
+  _checkout(e) {
+    e.preventDefault();
+
+    let cart = this.state.cart;
+
+    Flux.actions.cart.checkout(cart)
+     .catch(e => console.log(e));
+  }
+
   render(){
 
     return(
@@ -116,6 +125,9 @@ export default class MyCart extends React.Component {
                 </tr>
               </tfooter>
             </table>
+            <button className="btn btn-primary" onClick={this._checkout.bind(this)}>
+             <i className="fa fa-shopping-cart"></i> checkout
+            </button>
           </div>
         </div>
       </section>
