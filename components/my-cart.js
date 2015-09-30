@@ -44,6 +44,20 @@ export default class MyCart extends React.Component {
     this.setState({cart});
   }
 
+  _removeProducts(e){
+    e.preventDefault();
+
+    let user = Flux.store.user.get();
+    let productId = e.target.parentElement.dataset.productId;
+    let data = { pId: productId, uemail: user.email };
+    
+    Flux.actions.cart.remove(data)
+      .then(() => {
+          let cart = Flux.store.cart.get();
+          this.setState({cart: cart});
+        });
+  }
+
   render(){
 
     return(
@@ -73,7 +87,7 @@ export default class MyCart extends React.Component {
                     (p, index) => 
                       <tr key={p._id}>
                         <td>
-                          <a href="#" data-product={p.name}>
+                          <a data-product-id={p._id} href="#" onClick={this._removeProducts.bind(this)}>
                             <i className="fa fa-times" />
                           </a>
                         </td>

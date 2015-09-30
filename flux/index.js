@@ -144,6 +144,29 @@ let CartActions = Flux.createActions(
         }, function(err) {
           console.log(err);
         });
+    },
+
+    remove: function(data) {
+      return new Promise(function(resolve, reject) {
+          $.ajax({
+            url: `${RC.apiURL}/cart`,
+            type: 'DELETE',
+            data: data
+          })
+          .done(function(data){
+            resolve(data);
+          })
+          .fail(function( jqxhr, textStatus, error ){
+            console.log(jqxhr);
+            reject(Error("It broke"));
+          });
+        })
+        .then(function(result) {
+          let payload = { actionType: "GET_CART", data: result };
+          return payload;
+        }, function(err) {
+          console.log(err);
+        });
     }
   }
 );

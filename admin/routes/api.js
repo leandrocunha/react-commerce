@@ -228,6 +228,34 @@ router.post('/cart', function(req, res, next) {
   });
 });
 
+router.delete('/cart', function(req, res, next) {
+  Cart.remove({_id: req.body.pId, uemail: req.body.uemail}, function(err, docs){
+    if(err) {
+      res.status(403).json({
+        error: true,
+        message: 'Error on try remove product of cart',
+        errorSystem: err
+      });
+    }else{
+      Cart.find({ 'uemail': req.body.uemail }, function (err, docs) {
+        if(err){
+          res.status(403).json({
+            error: true,
+            message: 'Error on try get Cart',
+            errorSystem: err
+          });
+        }else{
+          res.json({
+            success: true,
+            message: 'Product removed with succesful from Cart!',
+            data: docs
+          });
+        }
+      });
+    }
+  })
+});
+
 
 // HELPERS
 var createHash = function(password){
