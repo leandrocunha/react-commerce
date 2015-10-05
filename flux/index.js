@@ -171,21 +171,23 @@ let CartActions = Flux.createActions(
 
     checkout: function(cart){
       return new Promise(function(resolve, reject){
-          $.ajax({
-            url: `https://ws.sandbox.pagseguro.uol.com.br/v2/checkout`,
-            contentType: 'application/xml; charset=ISO-8859-1',
-            type: 'POST',
-            data: {
-              email: 'leandroscunha@gmail.com',
-              token: '64653890FA2B4623A735883A7B4C0C2B',
-              currency: 'BRL',
-              itemId1: 1,
-              itemDescription1: 'Notebook Prata',
-              itemAmount1: '24300.00',
-              itemQuantity1: 1,
-              itemWeight1: 1000
-            }
-          })
+          // $.ajax({
+          //   url: `https://ws.sandbox.pagseguro.uol.com.br/v2/checkout`,
+          //   contentType: 'application/xml; charset=ISO-8859-1',
+          //   type: 'GET',
+          //   headers: { AccessControlAllowOrigin: '*' },
+          //   data: {
+          //     email: 'leandroscunha@gmail.com',
+          //     token: '64653890FA2B4623A735883A7B4C0C2B',
+          //     currency: 'BRL',
+          //     itemId1: 1,
+          //     itemDescription1: 'Notebook Prata',
+          //     itemAmount1: '24300.00',
+          //     itemQuantity1: 1,
+          //     itemWeight1: 1000
+          //   }
+          // })
+          $.post(`${RC.apiURL}/cart/checkout`, cart)
           .done(data => resolve(data))
           .fail((jqxhr, textStatus, error) => reject(Error(error)));
         })
@@ -302,6 +304,16 @@ let CartStore = Flux.createStore(
 
       get: function(){
         return this.products;
+      },
+
+      pagSeguro: function(data){
+        LazyLoad.js(['shared/vendors/xmlToJSON/xmlToJSON.js'],
+          () => {
+            let dataJSON = xmlToJSON.parseString(data.data);
+            let transactionCode = dataJSON.checkout[0].code[0]._text;
+            this.transactionCode = transactionCode;
+          }
+        );
       }
     },
 
@@ -315,6 +327,10 @@ let CartStore = Flux.createStore(
         case 'GET_CART':
           CartStore.set(payload.data);
           CartStore.emitChange();
+          break;
+
+        case 'CHECKOUT':
+          CartStore.pagSeguro(payload.data);
           break;
 
         default:

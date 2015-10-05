@@ -16,6 +16,7 @@
     "express-session": "^1.11.3",
     "formidable": "^1.0.17",
     "handlebars": "^3.0.3",
+    "jstoxml": "^0.2.3",
     "method-override": "^2.3.5",
     "mongodb": "^2.0.39",
     "mongoose": "^4.1.0",
@@ -23,6 +24,7 @@
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
     "react": "^0.13.3",
+    "request": "^2.64.0",
     "serve-favicon": "~2.3.0"
   }
 }

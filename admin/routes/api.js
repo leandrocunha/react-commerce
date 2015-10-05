@@ -5,6 +5,8 @@ var passport = require('passport');
 var formidable = require('formidable');
 var bCrypt = require('bcrypt-nodejs');
 var _ = require('lodash');
+var request = require('request');
+var jstoxml = require('jstoxml');
 
 // MODEL
 var User = require('../models/user');
@@ -254,6 +256,80 @@ router.delete('/cart', function(req, res, next) {
       });
     }
   })
+});
+
+router.post('/cart/checkout', function(req, res, next) {
+
+  var options;
+
+  options = {
+      method: 'POST',
+      uri: 'https://ws.sandbox.pagseguro.uol.com.br/v2/checkout?email=leandroscunha@gmail.com&token=64653890FA2B4623A735883A7B4C0C2B',
+      headers: {
+          'Content-Type': 'application/xml; charset=UTF-8'
+        },
+      body: jstoxml.toXML({ checkout: {
+          currency: 'BRL',
+          items: {
+            item: {
+              id: 0001,
+              description: 'Notebook Prata',
+              amount: '4230.00',
+              quantity: 1,
+              weight: 1000
+            }
+          },
+          reference: 'REF001',
+          sender: {
+            name: 'José Comprador',
+            email: 'comprador@uol.com.br',
+            phone: {
+                areacode: '11',
+                number: '56273440'
+              }
+          },
+          shipping: {
+            type: 1,
+            address: {
+              street: 'Av. Brig. Faria Lima',
+              number: 1384,
+              complement: '5o andar/complement',
+              district: 'Jardim Paulistano',
+              postalcode: 01452002,
+              city: 'Sao Paulo',
+              state: 'SP',
+              country: 'BRA'
+            }
+          }
+        }
+
+      })
+    };
+
+  return request(options, function(err, response, body) {
+      if(response.statusCode == 201){
+        console.log('document saved as: http://mikeal.iriscouch.com/testjs/'+ rand)
+      } else {
+        console.log('error: '+ response.statusCode)
+        console.log(body)
+
+        if(response.statusCode === 200){
+          if(err){
+            res.status(403).json({
+              error: true,
+              message: 'Error on try get Products',
+              errorSystem: err
+            });
+          }else{
+            res.json({
+              success: true,
+              message: 'success',
+              data: body
+            });
+          }
+        }
+      }
+  });
 });
 
 
