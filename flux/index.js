@@ -307,13 +307,11 @@ let CartStore = Flux.createStore(
       },
 
       pagSeguro: function(data){
-        LazyLoad.js(['shared/vendors/xmlToJSON/xmlToJSON.js'],
-          () => {
-            let dataJSON = xmlToJSON.parseString(data.data);
-            let transactionCode = dataJSON.checkout[0].code[0]._text;
-            this.transactionCode = transactionCode;
-          }
-        );
+        this.transactionCode = data.data.checkout;
+      },
+
+      getTransactionCode: function() {
+        return this.transactionCode;
       }
     },
 
@@ -331,6 +329,7 @@ let CartStore = Flux.createStore(
 
         case 'CHECKOUT':
           CartStore.pagSeguro(payload.data);
+          CartStore.emit('transactionCode');
           break;
 
         default:

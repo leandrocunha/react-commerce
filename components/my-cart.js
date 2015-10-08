@@ -31,6 +31,8 @@ export default class MyCart extends React.Component {
               });
         });
     }
+
+    Flux.store.cart.on('transactionCode', () => this._sendToPayment());
     
   }
 
@@ -64,7 +66,12 @@ export default class MyCart extends React.Component {
     let cart = this.state.cart;
 
     Flux.actions.cart.checkout(cart)
-     .catch(e => console.log(e));
+      .catch(e => console.log(e));
+  }
+
+  _sendToPayment() {
+    let transactionCode = Flux.store.cart.getTransactionCode();
+    window.location = 'https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=' + transactionCode.code[0];
   }
 
   render(){

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <script type="text/javascript" src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
+<script type="text/javascript">
+
+    var paymentModule = 'pagseguro_app';
+
+    checkoutCallbacks.add(pagseguroCheckout);
+
+    function pagseguroCheckout() {
+
+        if ($('input[name=module]').val() == paymentModule) {
+
+            var senderHash = PagSeguroDirectPayment.getSenderHash();
+            $('input[name=pagseguro\\[senderHash\\]]').val(senderHash);
+        
+            if ($('input[name=pagseguro\\[option\\]]:checked').val() == 'creditCard') {
+                
+                if ($('input[name=pagseguro\\[creditCardToken\\]]').val().length == 0) {
+                        checkoutNoSubmit = true;
+
+                        var param = {
+                            brand: $('input[name=pagseguro\\[brand\\]]').val(),
+                            cardNumber: $('.pagseguro_cc_card_num').val(),
+                            cvv: $('.pagseguro_cc_card_code').val(),
+                            expirationMonth: $('.pagseguro_cc_exp_date_mm').val(),
+                            expirationYear: $('.pagseguro_cc_exp_date_yy').val(),
+                            success: function(response) {
+                                $('input[name=pagseguro\\[creditCardToken\\]]').val(response.card.token);
+                                checkoutNoSubmit = false;
+                                $('#onepage_checkoutform').trigger('submit');
+                            },
+                            error: function(response) {
+                                alert('Cartão de crédito inválido. Não conseguimos processar seu pedido.');
+                                $checkoutButton = $('#onepage_checkoutform').find('button[type=submit]');
+                                $checkoutButton.removeClass('disabled');
+                                $checkoutButton.html('Finalizar compra');
+                            }
+                        }
+                        PagSeguroDirectPayment.createCardToken(param);
+                    }
+        
+            }
+
+        }
+      
+    }
+
+    function pagseguroValidateCard (element, bypassLengthTest) {
+        $('input[name=pagseguro\\[creditCardToken\\]]').val('');
+        var cardNum = $(element).val().replace(/[^\d.]/g, '');
+        var card_invalid = 'Validamos os primeiros 6 números do seu cartão de crédito e está inválido. Por favor esvazie o campo e tente digitar de novo.';
+
+        if (cardNum.length == 6 || (bypassLengthTest && cardNum.length >= 6)) {
+            PagSeguroDirectPayment.getBrand({
+            cardBin: cardNum.substr(0, 6),
+            success: function(response) {
+                if (typeof response.brand.name != 'undefined') {
+
+                    $('input[name=pagseguro\\[brand\\]]').val(response.brand.name);
+
+                    PagSeguroDirectPayment.getInstallments({
+                        amount: checkoutCart.total,
+                        brand: response.brand.name,
+                        success: function(response1) {
+                            $('select[name=pagseguro\\[installments\\]]').html('');
+                            $.each(response1.installments[response.brand.name], function(key, value){
+                                $('select[name=pagseguro\\[installments\\]]')
+                                  .append('<option value="'+value.quantity+'x'+value.installmentAmount.toFixed(2)+'">'+value.quantity+' vezes {{ shop_config('+currency_symbol+') }} '+value.installmentAmount.toFixed(2).replace('.', ',')+' (Total: '+value.totalAmount.toFixed(2).replace('.', ',')+') - ' + response.brand.name.toUpperCase() + '</option>');
+                            });
+                            $('.pagseguro-installments').show();
+                            $('.pagseguro-installments-info').hide();
+                        },
+                        error: function(){
+                            alert(card_invalid);
+                        }
+                    });
+
+                }else{
+                    alert(card_invalid);
+                }
+            },
+            error: function(response) {
+                alert(card_invalid);
+            }});
+        }
+    }
+
+    $(document).ready(function(){
+        $.ajax({
+            url: site_url.base + '/gates/returning/' + paymentModule + '?get_id=true',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data){
+                PagSeguroDirectPayment.setSessionId(data.session_id);
+            }
+        });
+
+        $('.pagseguro_cc_card_num').keyup(function(){
+            pagseguroValidateCard(this, false);
+        });
+        $('.pagseguro_cc_card_num').focusout(function(){
+            pagseguroValidateCard(this, true);
+        });
+        $('input.pagseguro_radio').change(function(){
+            $('.pagseguro-form').hide();
+            $('.pagseguro-' + $('input.pagseguro_radio:checked').val() ).show();
+        });
+    });
+
+</script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+{{ form_hidden('pagseguro[senderHash]') }}
+{{ form_hidden('pagseguro[creditCardToken]') }}
+{{ form_hidden('pagseguro[brand]') }}
+
+<div id="pagseguro_container">
+    <div class="well">
+        <div class="row pagseguro-payment-options">
+            <div class="col-md-3 pagseguro_card_brands">
+                <div>
+                    <label>
+                        <input type="radio" class="pagseguro_radio" name="pagseguro[option]" value="creditCard" checked>
+                        Cartão de crédito
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" class="pagseguro_radio" name="pagseguro[option]" value="boleto">
+                        Boleto
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" class="pagseguro_radio" name="pagseguro[option]" value="eft">
+                        Debito Online
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="pagseguro-form pagseguro-eft">
+                    <label>Banco</label>
+                    {{ form_dropdown('pagseguro[bankName]', {'bradesco': 'Bradesco', 'itau': 'Itau', 'bancodobrasil': 'Banco do Brasil', 'banrisul': 'Banrisul', 'hsbc': 'HSBC'}, '', 'class="form-control"') }}
+                </div>
+                <div class="pagseguro-form pagseguro-boleto" style="display:none;">
+                    Você vai ser redirecionado para a página do Boleto ao clicar "Finalizar compra"
+                </div>
+                <div class="pagseguro-form pagseguro-creditCard">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label>{{ lang('cc_card_number') }}</label>
+                                {{ form_input({'class': 'form-control pagseguro_cc_card_num', 'style': 'font-family:Courier;', 'maxlength': '16'}) }}
+                            </div>
+                            <div class="col-md-4">
+                                <label>{{ lang('cc_expires_on') }}</label>
+                                <div class="form-inline">
+                                    {{ form_dropdown(null, card_months(), date('m'), 'class="form-control pagseguro_cc_exp_date_mm"') }}
+                                    {{ form_dropdown(null, card_years(), '', 'class="form-control pagseguro_cc_exp_date_yy"') }}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>{{ lang('cc_cvv_code') }}</label>
+                                {{ form_input({'class': 'form-control pagseguro_cc_card_code', 'style': 'font-family:Courier;', 'maxlength': '4'}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Nome do portador (exatamente como escrito no cartão)</label>
+                                {{ form_input({'name': 'pagseguro[cc_holder]', 'value': '', 'class': 'form-control', 'data-get': 'fullname'}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>{{ lang('cc_number_installments') }}</label>
+                        <div class="pagseguro-installments-info">Informe o número do seu cartão para opter os valores das parcelas</div>
+                        {{ form_dropdown('pagseguro[installments]', [], '', 'class="form-control pagseguro-installments" style="display:none;"') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+</html>

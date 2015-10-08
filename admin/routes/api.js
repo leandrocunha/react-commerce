@@ -7,6 +7,7 @@ var bCrypt = require('bcrypt-nodejs');
 var _ = require('lodash');
 var request = require('request');
 var jstoxml = require('jstoxml');
+var xml2js = require('xml2js').parseString;
 
 // MODEL
 var User = require('../models/user');
@@ -300,7 +301,16 @@ router.post('/cart/checkout', function(req, res, next) {
               state: 'SP',
               country: 'BRA'
             }
+          },
+          sender: {
+            email: 'c14522814295795555504@sandbox.pagseguro.com.br',
+            name: 'Comprador de Teste',
+            phone: {
+              areaCode: 99,
+              number: 812402101
+            }
           }
+          redirectURL: 'http://dev.reactcommerce.com.br/#/success'
         }
 
       })
@@ -310,8 +320,6 @@ router.post('/cart/checkout', function(req, res, next) {
       if(response.statusCode == 201){
         console.log('document saved as: http://mikeal.iriscouch.com/testjs/'+ rand)
       } else {
-        console.log('error: '+ response.statusCode)
-        console.log(body)
 
         if(response.statusCode === 200){
           if(err){
@@ -321,11 +329,13 @@ router.post('/cart/checkout', function(req, res, next) {
               errorSystem: err
             });
           }else{
-            res.json({
-              success: true,
-              message: 'success',
-              data: body
-            });
+            xml2js(body, function (err, result) {
+              res.json({
+                success: true,
+                message: 'success',
+                data: result
+              });
+            });          
           }
         }
       }
