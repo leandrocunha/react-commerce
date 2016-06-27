@@ -57,6 +57,7 @@
     "gulp-uglify": "^1.5.4",
     "gulp-util": "^3.0.7",
     "jeet": "^6.1.4",
+    "minifyify": "^7.3.3",
     "plumber": "^0.4.8",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
