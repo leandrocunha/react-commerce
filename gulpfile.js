@@ -12,6 +12,18 @@ var babelify    = require('babelify'),
     uglify      = require('gulp-uglify'),
     watchify    = require('watchify');
 
+var paths = {
+  css: 'assets/css/',
+  js: {
+    dest: 'assets/js/',
+    src: 'src/js/*.js'
+  },
+  stylus: {
+    files: 'src/stylus/**/*.styl',
+    src: 'src/stylus/app.styl'
+  }
+};
+
 var vendors = [
     'react',
     'react-dom',
@@ -36,6 +48,24 @@ var sourceMapper = function (sourceMapPath) {
 };
 
 // Functions
+function buildStylus(options) {
+  var build = function() {
+    gulp
+     .src(options.src)
+     .pipe(sourcemaps.init())
+     .pipe(stylus({
+        compress: options.uglify,
+        use: [nib(), jeet()],
+        "include css": options.includeCss
+      }))
+     .pipe(sourcemaps.write('.'))
+     .pipe(gulp.dest(options.dest))
+     .pipe(livereload());
+  }
+
+  return build();
+}
+
 function buildVendors(options) {
   var b = browserify({ fullPaths: false, debug: true });  
   var sourceFName = 'vendors.js.map';
@@ -101,6 +131,26 @@ function buildApp(options) {
 }
 
 // Setup Tasks
+gulp.task('stylus-dev', function() {
+  return buildStylus({
+    includeCss: true,
+    dest: paths.css,
+    src: paths.stylus.src,
+    uglify: false,
+    watch: true
+  });
+});
+
+gulp.task('stylus', function() {
+  return buildStylus({
+    includeCss: true,
+    dest: paths.css,
+    src: paths.stylus.src,
+    uglify: true,
+    watch: false
+  });
+});
+
 gulp.task('vendors-dev', function () {
   return buildVendors({uglify: false});
 });

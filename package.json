@@ -44,7 +44,6 @@
     "numeral": "^1.5.3",
     "parse-react": "^0.4.2",
     "react-cookie": "^0.3.4",
-    "responsa": "*",
     "rupture": "~0.6.1",
     "serve-favicon": "~2.2.1",
     "slick-carousel": "^1.5.5"
