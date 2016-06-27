@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import {Link} from 'react-page';
 import Logotype from './logotype.js';
 import Flux from './../flux/';
 import Cookie from 'react-cookie';

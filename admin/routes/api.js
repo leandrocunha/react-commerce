@@ -309,7 +309,7 @@ router.post('/cart/checkout', function(req, res, next) {
               areaCode: 99,
               number: 812402101
             }
-          }
+          },
           redirectURL: 'http://dev.reactcommerce.com.br/#/success'
         }
 

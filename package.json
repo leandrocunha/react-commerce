@@ -43,13 +43,26 @@
     "nib": "~1.1.0",
     "numeral": "^1.5.3",
     "parse-react": "^0.4.2",
-    "react": "^0.13.3",
     "react-cookie": "^0.3.4",
-    "react-router": "^0.13.3",
-    "react-serial-forms": "^1.1.2",
     "responsa": "*",
     "rupture": "~0.6.1",
     "serve-favicon": "~2.2.1",
     "slick-carousel": "^1.5.5"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-stylus": "^2.5.0",
+    "gulp-uglify": "^1.5.4",
+    "gulp-util": "^3.0.7",
+    "jeet": "^6.1.4",
+    "plumber": "^0.4.8",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-page": "^2.5.4",
+    "uglify": "^0.1.5",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0"
   }
 }

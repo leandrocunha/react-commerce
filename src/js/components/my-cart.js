@@ -1,7 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import {InputField} from 'react-serial-forms';
-import Flux from './../flux/';
+import {actions, store} from './../flux/';
 import CartTotal from './cart-total';
 
 export default class MyCart extends React.Component {
@@ -13,26 +12,26 @@ export default class MyCart extends React.Component {
 
   componentDidMount(){
 
-    let user = Flux.store.user.get();
+    // let user = Flux.store.user.get();
 
-    if(user){
-      Flux.actions.cart.get(user)
-        .then(() => {
-          let cart = Flux.store.cart.get();
-          this.setState({cart: cart});
-        });
-    }else{
-      Flux.store.user.on('change', () => {
-          user = Flux.store.user.get();
-          Flux.actions.cart.get(user)
-            .then(() => {
-                let cart = Flux.store.cart.get();
-                this.setState({cart: cart});
-              });
-        });
-    }
+    // if(user){
+    //   Flux.actions.cart.get(user)
+    //     .then(() => {
+    //       let cart = Flux.store.cart.get();
+    //       this.setState({cart: cart});
+    //     });
+    // }else{
+    //   Flux.store.user.on('change', () => {
+    //       user = Flux.store.user.get();
+    //       Flux.actions.cart.get(user)
+    //         .then(() => {
+    //             let cart = Flux.store.cart.get();
+    //             this.setState({cart: cart});
+    //           });
+    //     });
+    // }
 
-    Flux.store.cart.on('transactionCode', () => this._sendToPayment());
+    // Flux.store.cart.on('transactionCode', () => this._sendToPayment());
     
   }
 
@@ -49,13 +48,13 @@ export default class MyCart extends React.Component {
   _removeProducts(e){
     e.preventDefault();
 
-    let user = Flux.store.user.get();
+    let user = store.user.get();
     let productId = e.target.parentElement.dataset.productId;
     let data = { pId: productId, uemail: user.email };
     
-    Flux.actions.cart.remove(data)
+    actions.cart.remove(data)
       .then(() => {
-          let cart = Flux.store.cart.get();
+          let cart = store.cart.get();
           this.setState({cart: cart});
         });
   }
@@ -65,16 +64,17 @@ export default class MyCart extends React.Component {
 
     let cart = this.state.cart;
 
-    Flux.actions.cart.checkout(cart)
+    actions.cart.checkout(cart)
       .catch(e => console.log(e));
   }
 
   _sendToPayment() {
-    let transactionCode = Flux.store.cart.getTransactionCode();
+    let transactionCode = store.cart.getTransactionCode();
     window.location = 'https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=' + transactionCode.code[0];
   }
 
   render(){
+    const cart = store.cart.get();
 
     return(
       /* jshint ignore:start */
@@ -99,8 +99,7 @@ export default class MyCart extends React.Component {
               </thead>
               <tbody>
                 {
-                  _.map(this.state.cart,
-                    (p, index) => 
+                  _.map(cart, (p, index) => 
                       <tr key={p._id}>
                         <td>
                           <a data-product-id={p._id} href="#" onClick={this._removeProducts.bind(this)}>
